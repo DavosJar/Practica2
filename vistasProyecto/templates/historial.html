@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Historial CRUD{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h2>Historial CRUD</h2>
+    <div class="d-flex align-items-center mb-4">
+        <a href="{{ url_for('router.home') }}" class="btn btn-primary mb-4">Volver a la lista de proyectos</a>
+       
+    </div>
+</div>
+<div class="content-section">
+    <div class="table-container">
+        <table class="table table-striped table-bordered w-auto mx-auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Tipo de Operación</th>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in lista %}
+                <tr class="text-center" style="height: 60px;">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.tipo }}</td>
+                    <td>{{ item.mensaje }}</td>
+                    <td>{{ item.horaFehca }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay eventos disponibles</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

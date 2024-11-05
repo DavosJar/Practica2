@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Gestión de Proyectos de Energía{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-md-2 bg-light d-flex flex-column justify-content-center position-fixed vh-100">
+                <nav class="nav flex-column text-center w-100">
+                    <div class="nav-item mb-2">
+                        <a class="nav-link btn btn-primary text-white w-100" href="{{ url_for('router.home') }}">Proyectos</a>
+                    </div>
+                    <div class="nav-item mb-2">
+                        <a class="nav-link btn btn-primary text-white w-100" href="{{ url_for('router.crud_event') }}">Historial</a>
+                    </div>
+                    <div class="nav-item mb-2">
+                        <a class="nav-link btn btn-primary text-white w-100" href="{{ url_for('router.inversionistas') }}">Inversionistas</a>
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="col-md-10 offset-md-2">
+                <header class="my-4">
+                    <div class="header-container text-center">
+                        <h1>Proyecto Energía</h1>
+                    </div>
+                </header>
+
+                <div class="content-container">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+
+        <footer class="text-center py-4">
+            <div class="footer-container">
+                <p>&copy; 2024 Desarrollado por Alexis Jara</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
