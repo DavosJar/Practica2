@@ -1,272 +1,542 @@
 [
     {
-        "id": 28,
+        "id": 1,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:44"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:14"
     },
     {
         "id": 2,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:44"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:15"
     },
     {
         "id": 3,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:45"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:16"
     },
     {
-        "id": 3,
+        "id": 4,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:45"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:17"
     },
     {
         "id": 5,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:45"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:18"
     },
     {
         "id": 6,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:20"
     },
     {
         "id": 7,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:20"
     },
     {
         "id": 8,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye So10r 656j",
+        "mensaje": "2024-11-24 01:48:22"
     },
     {
         "id": 9,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-24 01:48:28"
     },
     {
-        "id": 9,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
-    },
-    {
-        "id": 11,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "id": 10,
+        "tipo": "UPDATE",
+        "horaFehca": "Se ha actualizado el proyecto con id: 1",
+        "mensaje": "2024-11-24 01:50:01"
     },
     {
         "id": 11,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "tipo": "UPDATE",
+        "horaFehca": "Se ha actualizado el proyecto con id: 8",
+        "mensaje": "2024-11-24 01:50:35"
+    },
+    {
+        "id": 12,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 00:40:38"
     },
     {
         "id": 13,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 00:40:59"
     },
     {
         "id": 14,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:47"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:15:08"
     },
     {
         "id": 15,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:47"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:19:00"
     },
     {
-        "id": 1,
+        "id": 16,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:46"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:19:18"
     },
     {
         "id": 17,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:47"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:19:26"
     },
     {
         "id": 18,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:47"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: Poye",
+        "mensaje": "2024-11-26 01:19:45"
     },
     {
         "id": 19,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:47"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:27:34"
     },
     {
         "id": 20,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:48"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: Poye",
+        "mensaje": "2024-11-26 01:27:44"
     },
     {
         "id": 21,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:48"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: poye",
+        "mensaje": "2024-11-26 01:33:12"
     },
     {
         "id": 22,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:48"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con id: 1",
+        "mensaje": "2024-11-26 01:33:20"
     },
     {
         "id": 23,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:48"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con id: 7",
+        "mensaje": "2024-11-26 01:33:26"
     },
     {
         "id": 24,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:48"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:31"
     },
     {
         "id": 25,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:48"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:31"
     },
     {
         "id": 26,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:49"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:31"
     },
     {
         "id": 27,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:49"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:31"
     },
     {
         "id": 28,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:49"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:32"
     },
     {
         "id": 29,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:49"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:32"
     },
     {
         "id": 30,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:49"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:32"
     },
     {
         "id": 31,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:49"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:32"
     },
     {
         "id": 32,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:50"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:32"
     },
     {
         "id": 33,
         "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:50"
+        "horaFehca": "Se ha creado un nuevo proyecto.Poye",
+        "mensaje": "2024-11-26 01:33:32"
     },
     {
         "id": 34,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:50"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: poye",
+        "mensaje": "2024-11-26 01:33:44"
     },
     {
         "id": 35,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:50"
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: Cannot read the array length because \"proyectos\" is null",
+        "mensaje": "2024-11-26 01:33:54"
     },
     {
         "id": 36,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:50"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: poye",
+        "mensaje": "2024-11-26 01:34:19"
     },
     {
         "id": 37,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:51"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: poye",
+        "mensaje": "2024-11-26 01:36:30"
     },
     {
         "id": 38,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:51"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: poye",
+        "mensaje": "2024-11-26 01:36:43"
     },
     {
         "id": 39,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:51"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:36:50"
     },
     {
         "id": 40,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:51"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:37:24"
     },
     {
         "id": 41,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:51"
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El atributo de busqueda no es valido.",
+        "mensaje": "2024-11-26 01:38:02"
     },
     {
         "id": 42,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:51"
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El atributo de busqueda no es valido.",
+        "mensaje": "2024-11-26 01:38:08"
     },
     {
         "id": 43,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:52"
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:38:20"
     },
     {
         "id": 44,
-        "tipo": "CREATE",
-        "horaFehca": "La fecha de fin es obligatoria.",
-        "mensaje": "2024-11-04 17:20:53"
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El atributo de busqueda no es valido.",
+        "mensaje": "2024-11-26 01:39:04"
     },
     {
         "id": 45,
         "tipo": "LIST",
         "horaFehca": "Se ha consultado la lista de proyectos.",
-        "mensaje": "2024-11-04 17:22:53"
+        "mensaje": "2024-11-26 01:39:35"
+    },
+    {
+        "id": 46,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con ubicacion: loja",
+        "mensaje": "2024-11-26 01:39:51"
+    },
+    {
+        "id": 47,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con ubicacion: LOJA",
+        "mensaje": "2024-11-26 01:40:00"
+    },
+    {
+        "id": 48,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El atributo de busqueda no es valido.",
+        "mensaje": "2024-11-26 01:40:26"
+    },
+    {
+        "id": 49,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:40:57"
+    },
+    {
+        "id": 50,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:42:45"
+    },
+    {
+        "id": 51,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:44:44"
+    },
+    {
+        "id": 52,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:44:46"
+    },
+    {
+        "id": 53,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:46:47"
+    },
+    {
+        "id": 54,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:46:49"
+    },
+    {
+        "id": 55,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0",
+        "mensaje": "2024-11-26 01:46:50"
+    },
+    {
+        "id": 56,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos.",
+        "mensaje": "2024-11-26 01:46:59"
+    },
+    {
+        "id": 57,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con capacidad: 0",
+        "mensaje": "2024-11-26 01:47:34"
+    },
+    {
+        "id": 58,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0.0",
+        "mensaje": "2024-11-26 01:47:47"
+    },
+    {
+        "id": 59,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: Cannot invoke \"Object.toString()\" because the return value of \"com.sistema_energia.controller.dao.ProyectoDao.obtenerAttributeValue(Object, String)\" is null",
+        "mensaje": "2024-11-26 01:48:00"
+    },
+    {
+        "id": 60,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getFechafin()",
+        "mensaje": "2024-11-26 01:48:04"
+    },
+    {
+        "id": 61,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getFechafin()",
+        "mensaje": "2024-11-26 01:48:37"
+    },
+    {
+        "id": 62,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: Cannot invoke \"Object.toString()\" because the return value of \"com.sistema_energia.controller.dao.ProyectoDao.obtenerAttributeValue(Object, String)\" is null",
+        "mensaje": "2024-11-26 01:48:44"
+    },
+    {
+        "id": 63,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: Cannot invoke \"Object.toString()\" because the return value of \"com.sistema_energia.controller.dao.ProyectoDao.obtenerAttributeValue(Object, String)\" is null",
+        "mensaje": "2024-11-26 01:55:28"
+    },
+    {
+        "id": 64,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getFechafin()",
+        "mensaje": "2024-11-26 01:55:34"
+    },
+    {
+        "id": 65,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getFechafin()",
+        "mensaje": "2024-11-26 01:55:54"
+    },
+    {
+        "id": 66,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getFechafin()",
+        "mensaje": "2024-11-26 01:56:11"
+    },
+    {
+        "id": 67,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getFechafin()",
+        "mensaje": "2024-11-26 01:59:37"
+    },
+    {
+        "id": 68,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con inversion: 0.0",
+        "mensaje": "2024-11-26 02:00:59"
+    },
+    {
+        "id": 69,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con id: 1",
+        "mensaje": "2024-11-26 02:01:10"
+    },
+    {
+        "id": 70,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado el proyecto con nombre: poye",
+        "mensaje": "2024-11-26 02:01:26"
+    },
+    {
+        "id": 71,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getTipoenergia()",
+        "mensaje": "2024-11-26 02:01:46"
+    },
+    {
+        "id": 72,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getTipoenergia()",
+        "mensaje": "2024-11-26 02:01:52"
+    },
+    {
+        "id": 73,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getTipoenergia()",
+        "mensaje": "2024-11-26 02:05:01"
+    },
+    {
+        "id": 74,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: com.sistema_energia.controller.model.Proyecto.getTipoenergia()",
+        "mensaje": "2024-11-26 02:05:06"
+    },
+    {
+        "id": 75,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El tipo de ordenamiento debe ser \u0027asc\u0027 o \u0027desc\u0027.",
+        "mensaje": "2024-11-26 02:13:08"
+    },
+    {
+        "id": 76,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por nombre 1.",
+        "mensaje": "2024-11-26 02:14:18"
+    },
+    {
+        "id": 77,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por nombre 1.",
+        "mensaje": "2024-11-26 02:15:42"
+    },
+    {
+        "id": 78,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por nombre 0.",
+        "mensaje": "2024-11-26 02:15:57"
+    },
+    {
+        "id": 79,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El tipo de ordenamiento no es valido.",
+        "mensaje": "2024-11-26 02:16:04"
+    },
+    {
+        "id": 80,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por nombre 0.",
+        "mensaje": "2024-11-26 02:16:08"
+    },
+    {
+        "id": 81,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por nombre 1.",
+        "mensaje": "2024-11-26 02:16:31"
+    },
+    {
+        "id": 82,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por id 1.",
+        "mensaje": "2024-11-26 02:16:51"
+    },
+    {
+        "id": 83,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por id 0.",
+        "mensaje": "2024-11-26 02:17:00"
+    },
+    {
+        "id": 84,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por id 0.",
+        "mensaje": "2024-11-26 02:17:54"
+    },
+    {
+        "id": 85,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por nombre 0.",
+        "mensaje": "2024-11-26 02:18:02"
+    },
+    {
+        "id": 86,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El atributo de ordenamiento no es valido.",
+        "mensaje": "2024-11-26 02:18:29"
+    },
+    {
+        "id": 87,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por fechaInicio 0.",
+        "mensaje": "2024-11-26 02:18:42"
+    },
+    {
+        "id": 88,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por fechaInicio 1.",
+        "mensaje": "2024-11-26 02:18:53"
+    },
+    {
+        "id": 89,
+        "tipo": "LIST",
+        "horaFehca": "Error inesperado: El atributo de ordenamiento no es valido.",
+        "mensaje": "2024-11-26 02:19:17"
+    },
+    {
+        "id": 90,
+        "tipo": "LIST",
+        "horaFehca": "Se ha consultado la lista de proyectos ordenada por estado 1.",
+        "mensaje": "2024-11-26 02:19:52"
     }
 ]

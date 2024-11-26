@@ -1,4 +1,5 @@
 package com.sistema_energia.rest;
+
 import java.util.HashMap;
 
 import javax.ws.rs.GET;
@@ -13,7 +14,6 @@ import com.sistema_energia.controller.excepction.ListEmptyException;
 import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.EventoCrud;
 
-
 /**
  * Clase que implementa los servicios REST para la entidad Evento
  * los metodos almacenaran la informacion en un archivo JSON
@@ -21,46 +21,44 @@ import com.sistema_energia.eventos.EventoCrud;
 
 @Path("/evento")
 public class EventoCrudApi {
-    private  EventoCrudServices ev = new EventoCrudServices();
+    private EventoCrudServices ev = new EventoCrudServices();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
-    public String getAllEventos() throws ListEmptyException, Exception{
+    public Response getAllEventos() throws ListEmptyException, Exception {
         HashMap<String, Object> map = new HashMap<>();
-        EventoCrudServices es = new EventoCrudServices();
         try {
-            LinkedList eventos = es.getAllEventosCrud();
-            if(eventos.getSize() == 0){
+            LinkedList<EventoCrud> eventos = ev.getAllEventosCrud();
+            if (eventos == null) {
                 throw new ListEmptyException("Error: No hay eventos Registrados.");
             }
             map.put("msg", "OK");
             map.put("data", eventos);
         } catch (Exception e) {
             map.put("msg", "Error al obtener la lista de eventos: " + e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build().toString();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
-        return Response.ok(map).build().toString();
+        return Response.ok(map).build();
     }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list/{id}")
-    public String getEventoById(@PathParam("id") Integer id) throws ListEmptyException, Exception{
+    public Response getEventoById(@PathParam("id") Integer id) {
         HashMap<String, Object> map = new HashMap<>();
-        EventoCrudServices es = new EventoCrudServices();
         try {
-            EventoCrud evento = es.getEventoCrudById(id);
-            if(evento == null){
+            EventoCrud evento = ev.getEventoCrudById(id);
+            if (evento == null) {
                 throw new ListEmptyException("Error: No hay eventos Registrados.");
             }
             map.put("msg", "OK");
             map.put("data", evento);
         } catch (Exception e) {
-            map.put("msg", "Error al obtener la lista de eventos: " + e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build().toString();
+            map.put("msg", "Error al obtener el evento: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
-        return Response.ok(map).build().toString();
+        return Response.ok(map).build();
     }
 
 }
-

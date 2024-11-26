@@ -5,6 +5,7 @@ import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.EventoCrud;
 import com.sistema_energia.eventos.TipoCrud;
 
+@SuppressWarnings({ "unchecked", "ConvertToTryWithResources" })
 
 public class EventoCrudServices {
     private EventoCrudDao obj;
@@ -18,11 +19,11 @@ public class EventoCrudServices {
     }
 
     public Boolean registrarEvento(TipoCrud tipo, String mensaje) throws Exception {
-        return obj.registrarEvento(tipo,  mensaje);
+        return obj.registrarEvento(tipo, mensaje);
     }
 
     public LinkedList<EventoCrud> getAllEventosCrud() throws Exception {
-        return obj.getAllEventosCrud();
+        return obj.getListAll();
     }
 
     public void setEventoCrud(EventoCrud eventoCrud) {

@@ -6,8 +6,13 @@ import com.sistema_energia.controller.tda.list.LinkedList;
 
 public class QueueOperation<E> extends LinkedList<E> {
     private Integer top;
-    public QueueOperation(Integer top){
+
+    public QueueOperation(Integer top) {
         this.top = top;
+    }
+
+    public QueueOperation() {
+
     }
 
     public Integer getTop() {
@@ -18,7 +23,7 @@ public class QueueOperation<E> extends LinkedList<E> {
         this.top = top;
     }
 
-    public Boolean verify(){
+    public Boolean verify() {
         return getSize().intValue() <= top.intValue();
     }
 
@@ -36,6 +41,10 @@ public class QueueOperation<E> extends LinkedList<E> {
         } else {
             return deleteHeader();
         }
+    }
+
+    public E peek() throws ListEmptyException {
+        return this.getTail().getData();
     }
 
 }

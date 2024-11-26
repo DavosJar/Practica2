@@ -1,9 +1,9 @@
 package com.sistema_energia.controller.model;
 
 public class Proyecto {
-    private int id;
+    private Integer id;
     private String nombre;
-    private double costoEstimadoInicial;  
+    private double costoEstimadoInicial;
     private double inversion;
     private String fechaInicio;
     private String fechaFin;
@@ -14,11 +14,12 @@ public class Proyecto {
     private String descripcion;
     private Estado estado;
 
-
     public Proyecto() {
     }
 
-    public Proyecto(int id, String nombre, double inversion, String fechaInicio, String fechaFin, Integer tiempoDeVida, TipoEnergia tipoEnergia, Provincia ubicacion, String descripcion, Estado estado) {
+    public Proyecto(Integer id, String nombre, double inversion, String fechaInicio, String fechaFin,
+            Integer tiempoDeVida,
+            TipoEnergia tipoEnergia, Provincia ubicacion, String descripcion, Estado estado) {
         this.id = id;
         this.nombre = nombre;
         this.inversion = inversion;
@@ -31,7 +32,7 @@ public class Proyecto {
         this.estado = estado;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -118,6 +119,7 @@ public class Proyecto {
     public void setCostoEstimadoInicial(double costoEstimadoInicial) {
         this.costoEstimadoInicial = costoEstimadoInicial;
     }
+
     public Integer getCapacidad() {
         return capacidad;
     }
@@ -128,8 +130,10 @@ public class Proyecto {
 
     @Override
     public String toString() {
-        return "Proyecto{" + "id=" + id + ", nombre=" + nombre + ", inversion=" + inversion + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", tiempoDeVida=" + tiempoDeVida + ", tipoEnergia=" + tipoEnergia + ", ubicacion=" + ubicacion + ", descripcion=" + descripcion + ", estado=" + estado + '}';
+        return "Proyecto{" + "id=" + id + ", nombre=" + nombre + ", inversion=" + inversion + ", fechaInicio="
+                + fechaInicio + ", fechaFin=" + fechaFin + ", tiempoDeVida=" + tiempoDeVida + ", tipoEnergia="
+                + tipoEnergia + ", ubicacion=" + ubicacion + ", descripcion=" + descripcion + ", estado=" + estado
+                + '}';
     }
-    
+
 }
-    
