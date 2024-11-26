@@ -72,6 +72,22 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         }
     }
 
+    public LinkedList<Inversionista> obtenerInversionistasProyecto(Integer proyectoId) throws Exception {
+        LinkedList<Inversionista> inversionistas = getAllInversionistas();
+        LinkedList<Inversionista> inversionistasProyecto = new LinkedList<>();
+        if (!inversionistas.isEmpty()) {
+            Inversionista[] inversionistasArray = inversionistas.toArray();
+            for (Inversionista inversionista : inversionistasArray) {
+                if (inversionista.getProyectoId() == proyectoId) {
+                    inversionistasProyecto.add(inversionista);
+                }
+            }
+        } else {
+            return new LinkedList<>();
+        }
+        return inversionistasProyecto;
+    }
+
     public String toJson() throws Exception {
         return g.toJson(this.inversionista);
     }
