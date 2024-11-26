@@ -16,13 +16,14 @@ import com.sistema_energia.controller.dao.services.InversionistaServices;
 import com.sistema_energia.controller.excepction.ListEmptyException;
 import com.sistema_energia.eventos.TipoCrud;
 
+@SuppressWarnings("rawtypes")
 @Path("/inversionista")
 public class InversionistaApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
-    public Response getAllInversionistas()throws ListEmptyException, Exception{
+    public Response getAllInversionistas() throws ListEmptyException, Exception {
         HashMap<String, Object> map = new HashMap<>();
         InversionistaServices is = new InversionistaServices();
         try {
@@ -34,16 +35,16 @@ public class InversionistaApi {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
     }
-    
+
     @Path("/save")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(HashMap map) throws Exception {
         HashMap<String, Object> res = new HashMap<>();
         EventoCrudServices ec = new EventoCrudServices();
-        
+
         try {
-            
+
             if (map.get("nombre") == null || map.get("nombre").toString().isEmpty()) {
                 throw new IllegalArgumentException("El nombre es obligatorio.");
             }
@@ -66,7 +67,8 @@ public class InversionistaApi {
             is.save();
             res.put("MSG", "OK");
             res.put("DATA", is.toJson() + " Guardado con exito");
-            ec.registrarEvento(TipoCrud.CREATE, "Se ha creado un nuevo inversionista: " + is.getInversionista().getNombre());
+            ec.registrarEvento(TipoCrud.CREATE,
+                    "Se ha creado un nuevo inversionista: " + is.getInversionista().getNombre());
             return Response.ok(res).build();
 
         } catch (IllegalArgumentException e) {
@@ -86,7 +88,7 @@ public class InversionistaApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/{id}")
-    public Response getProyectoById(@PathParam("id") String id) throws Exception{
+    public Response getProyectoById(@PathParam("id") String id) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         InversionistaServices is = new InversionistaServices();
         EventoCrudServices ec = new EventoCrudServices();
@@ -104,27 +106,26 @@ public class InversionistaApi {
         }
     }
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/provincia")
-    public Response getProvincia()throws ListEmptyException, Exception{
+    public Response getProvincia() throws ListEmptyException, Exception {
         HashMap<String, Object> map = new HashMap<>();
         InversionistaServices is = new InversionistaServices();
         map.put("msg", "OK");
         map.put("data", is.getProvincia());
         return Response.ok(map).build();
     }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/sector")
-    public Response getSector()throws ListEmptyException, Exception{
+    public Response getSector() throws ListEmptyException, Exception {
         HashMap<String, Object> map = new HashMap<>();
         InversionistaServices is = new InversionistaServices();
         map.put("msg", "OK");
         map.put("data", is.getSector());
         return Response.ok(map).build();
     }
-    
 
 }

@@ -14,39 +14,47 @@ public class InversionistaServices {
     public InversionistaServices() {
         obj = new InversionistaDao();
     }
-    
+
     public Boolean save() throws Exception {
         return obj.save();
     }
 
-    public LinkedList getAllInversionistas() throws Exception {
+    public LinkedList<Inversionista> getAllInversionistas() throws Exception {
         return obj.getAllInversionistas();
     }
-    public void setInversionista(Inversionista inversionista){
+
+    public void setInversionista(Inversionista inversionista) {
         obj.setInversionista(inversionista);
     }
+
     public String toJson() throws Exception {
         return obj.toJson();
     }
-    public Inversionista getInversionista(){
+
+    public Inversionista getInversionista() {
         return obj.getInversionista();
     }
 
-    public Inversionista getInversionistaById(Integer id)throws  Exception{
+    public Inversionista getInversionistaById(Integer id) throws Exception {
         return obj.getInversionistaById(id);
     }
-    public String getInversionistaJsonById(Integer id) throws Exception{
+
+    public String getInversionistaJsonById(Integer id) throws Exception {
         return obj.getInversionistaJsonById(id);
     }
+
     public Sector getSector(String sector) {
         return Sector.valueOf(sector);
     }
+
     public Sector[] getSector() {
         return Sector.values();
     }
+
     public Provincia getProvincia(String provincia) {
         return Provincia.valueOf(provincia);
     }
+
     public Provincia[] getProvincia() {
         return Provincia.values();
     }

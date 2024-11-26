@@ -8,36 +8,38 @@ import com.sistema_energia.controller.model.Provincia;
 import com.sistema_energia.controller.model.Sector;
 import com.sistema_energia.controller.tda.list.LinkedList;
 
+@SuppressWarnings("unchecked")
+
 public class InversionistaDao extends AdapterDao<Inversionista> {
     private Inversionista inversionista;
-    private LinkedList listAll;
-    private Gson g = new Gson(); 
+    private LinkedList<Inversionista> listAll;
+    private Gson g = new Gson();
 
     public InversionistaDao() {
         super(Inversionista.class);
     }
 
-    public Inversionista getInversionista(){
+    public Inversionista getInversionista() {
         if (this.inversionista == null) {
             this.inversionista = new Inversionista();
         }
         return this.inversionista;
     }
 
-    public void setInversionista(Inversionista inversionista){
+    public void setInversionista(Inversionista inversionista) {
         this.inversionista = inversionista;
     }
 
-    public LinkedList getAllInversionistas() throws Exception {
+    public LinkedList<Inversionista> getAllInversionistas() throws Exception {
         try {
             listAll = listAll();
             if (listAll.getSize() <= 0) {
-                return new LinkedList();
+                return new LinkedList<>();
             }
-            return listAll; 
+            return listAll;
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
-            return new LinkedList();
+            return new LinkedList<>();
         }
     }
 
@@ -62,14 +64,13 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         return true;
     }
 
-    private  void reindex() throws Exception {
+    private void reindex() throws Exception {
         LinkedList<Inversionista> inversionistas = getAllInversionistas();
         for (int i = 0; i < inversionistas.getSize(); i++) {
             inversionistas.get(i).setId(i + 1);
             this.merge(inversionistas.get(i), i);
         }
-    }   
-
+    }
 
     public String toJson() throws Exception {
         return g.toJson(this.inversionista);
@@ -99,11 +100,11 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         return Sector.values();
     }
 
-    public LinkedList getListAll() {
+    public LinkedList<Inversionista> getListAll() {
         return listAll;
     }
 
-    public void setListAll(LinkedList listAll) {
+    public void setListAll(LinkedList<Inversionista> listAll) {
         this.listAll = listAll;
     }
 }
