@@ -36,8 +36,8 @@ public class ProyectoServices {
         obj.setProyecto(proyecto);
     }
 
-    public Proyecto getProyectoByIndex(Integer index) throws Exception {
-        return obj.getProyectoByIndex(index);
+    public Proyecto getProyectoById(Integer id) throws Exception {
+        return obj.getProyectoById(id);
 
     }
 
@@ -100,5 +100,9 @@ public class ProyectoServices {
 
     public String[] getProyectoAttributeLists() {
         return obj.getProyectoAttributeLists();
+    }
+
+    public void actualizarInversionProyecto(Integer idProyecto, Double monto) throws Exception {
+        obj.actualizarMontoInversion(idProyecto, monto);
     }
 }

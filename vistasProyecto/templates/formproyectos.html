@@ -1,57 +1,60 @@
 {% extends "base.html" %}
-{% block title %}Agregar Proyecto{% endblock %}
+{% block title %}{{ 'Editar Proyecto' if is_edit else 'Agregar Nuevo Proyecto' }}{% endblock %}
 {% block content %}
 <div class="container">
-    <h2 class="my-4">Agregar Nuevo Proyecto</h2>
-    <form method="POST" action="{{ url_for('router.crear_proyecto') }}">
-        {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.nombre.label(class="form-label") }}
-            {{ form.nombre(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.costo.label(class="form-label") }}
-            {{ form.costo(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.fecha_inicio.label(class="form-label") }}
-            {{ form.fecha_inicio(class="form-control") }}
-        </div>
+    <h2 class="my-4">{{ 'Editar Proyecto' if is_edit else 'Agregar Nuevo Proyecto' }}</h2>
+    <div class="container">
+        <form method="POST" action="{{ url_for('proyecto.update_proyecto', id=proyecto.get('id')) if is_edit else url_for('proyecto.post_proyecto_form') }}">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" value="{{ proyecto.nombre if is_edit else '' }}" required>
 
-        <div class="form-group">
-            {{ form.tiempo_vida.label(class="form-label") }}
-            {{ form.tiempo_vida(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.capacidad.label(class="form-label") }}
-            {{ form.capacidad(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.tipo_energia.label(class="form-label") }}
-            {{ form.tipo_energia(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.ubicacion.label(class="form-label") }}
-            {{ form.ubicacion(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.descripcion.label(class="form-label") }}
-            {{ form.descripcion(class="form-control") }}
-        </div>
+            <label for="descripcion">Descripción:</label>
+            <textarea name="descripcion" required>{{ proyecto.descripcion if is_edit else '' }}</textarea>
 
-        <div class="form-group">
-            {{ form.estado.label(class="form-label") }}
-            {{ form.estado(class="form-control") }}
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Crear Proyecto</button>
-    </form>
+            <label for="fecha_inicio">Fecha de inicio:</label>
+            <input type="date" name="fecha_inicio" value="{{ proyecto.fechaInicio if is_edit else '' }}" required>
+
+            <label for="fecha_fin">Fecha de fin (opcional):</label>
+            <input type="date" name="fecha_fin" value="{{ proyecto.fechaFin if is_edit else '' }}">
+
+            <label for="presupuesto">Costo Estimado Inicial:</label>
+            <input type="number" name="presupuesto" value="{{ proyecto.costoEstimadoInicial if is_edit else '' }}" required>
+
+            <label for="inversion">Inversión:</label>
+            <input type="number" name="inversion" value="{{ proyecto.inversion if is_edit else '' }}" step="0.01">
+
+            <select name="tipo">
+                {% if tipos %}
+                    {% for key, value in tipos %}
+                        <option value="{{ key }}" {% if is_edit and proyecto.tipoEnergia == key %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" disabled>No disponible</option>
+                {% endif %}
+            </select>
+
+            <label for="estado">Estado:</label>
+            <select name="estado">
+                {% for key, value in estado %}
+                    <option value="{{ key }}" {% if is_edit and proyecto.estado == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="provincia">Ubicación:</label>
+            <select name="provincia">
+                {% for key, value in provincia %}
+                    <option value="{{ key }}" {% if is_edit and proyecto.ubicacion == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="capacidad">Capacidad:</label>
+            <input type="number" name="capacidad" value="{{ proyecto.capacidad if is_edit else '' }}">
+
+            <label for="tiempo_de_vida">Tiempo de Vida (en años):</label>
+            <input type="number" name="tiempo_de_vida" value="{{ proyecto.tiempoDeVida if is_edit else '' }}">
+
+            <button type="submit">{{ 'Actualizar Proyecto' if is_edit else 'Guardar Proyecto' }}</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

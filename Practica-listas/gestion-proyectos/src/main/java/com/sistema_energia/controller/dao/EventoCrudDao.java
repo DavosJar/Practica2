@@ -11,7 +11,7 @@ import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.EventoCrud;
 import com.sistema_energia.eventos.TipoCrud;
 
-@SuppressWarnings({ "unchecked", "ConvertToTryWithResources" })
+@SuppressWarnings({ "unchecked", "ConvertToTryWithResources", "FieldMayBeFinal" })
 public class EventoCrudDao extends AdapterDao<EventoCrud> {
     private EventoCrud eventoCrud;
     private LinkedList<EventoCrud> listAll;
@@ -70,9 +70,9 @@ public class EventoCrudDao extends AdapterDao<EventoCrud> {
         LinkedList<EventoCrud> listaFiltrada = new LinkedList<>();
         if (!listAll.isEmpty()) {
             EventoCrud[] lista = listAll.toArray();
-            for (EventoCrud eventoCrud : lista) {
-                if (obtenerValorAtributo(eventoCrud, atributo).equals(valor)) {
-                    listaFiltrada.add(eventoCrud);
+            for (EventoCrud ec : lista) {
+                if (obtenerValorAtributo(ec, atributo).equals(valor)) {
+                    listaFiltrada.add(ec);
                 }
             }
         }
@@ -86,9 +86,9 @@ public class EventoCrudDao extends AdapterDao<EventoCrud> {
         EventoCrud evento = null;
         if (!listAll.isEmpty()) {
             EventoCrud[] lista = listAll.toArray();
-            for (EventoCrud eventoCrud : lista) {
-                if (obtenerValorAtributo(eventoCrud, atributo).equals(valor)) {
-                    evento = eventoCrud;
+            for (EventoCrud ec : lista) {
+                if (obtenerValorAtributo(ec, atributo).equals(valor)) {
+                    evento = ec;
                     break;
                 }
             }
@@ -134,24 +134,12 @@ public class EventoCrudDao extends AdapterDao<EventoCrud> {
     }
 
     public EventoCrud getEventoCrudById(Integer id) throws Exception {
-        Integer index = getEventoIndex("id", id);
-        try {
-            if (index == -1) {
-                throw new Exception("Evento no encontrado");
-            }
-            return get(index);
-        } catch (Exception e) {
-            throw new Exception("Error al obtener el evento: " + e.getMessage());
-        }
+        return get(id);
     }
 
     public String getEventoCrudJsonById(Integer id) throws Exception {
         return g.toJson(getEventoCrudById(id));
 
-    }
-
-    public EventoCrud getEventoCrudByIndex(Integer index) throws Exception {
-        return get(index);
     }
 
     public String getEventoCrudJsonByIndex(Integer index) throws Exception {

@@ -52,60 +52,15 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
             throw new Exception("Error al guardar el proyecto: " + e.getMessage());
         }
     }
-    /*
-     * private void actualizarInversionProyecto(Double nuevoMontoInvertido) throws
-     * Exception {
-     * if (this.proyecto == null) {
-     * throw new
-     * Exception("No hay un proyecto actual para actualizar la inversión.");
-     * }
-     * this.proyecto.setInversion(this.proyecto.getInversion() +
-     * nuevoMontoInvertido);
-     * this.merge(this.proyecto, this.proyecto.getId() - 1);
-     * }
-     * 
-     * // Metodo que guarda un inversionista en un proyecto
-     * public boolean saveInversionistaProyecto(Inversionista inversionista, Integer
-     * proyectoId) throws Exception {
-     * Proyecto proyectoExistente = getProyectoByIndex(proyectoId);
-     * if (proyectoExistente == null) {
-     * throw new Exception("Proyecto con ID " + proyectoId + " no existe.");
-     * }
-     * 
-     * this.proyecto = proyectoExistente;
-     * InversionistaServices is = new InversionistaServices();
-     * inversionista.setProyectoId(proyectoId);
-     * actualizarInversionProyecto(inversionista.getMontoInvertido());
-     * 
-     * is.setInversionista(inversionista);
-     * is.save();
-     * 
-     * return true;
-     * }
-     * 
-     * // Metodo que actualiza un inversionista en un proyecto
-     * private LinkedList<Inversionista> getAllInversionistas() throws Exception {
-     * if (listInversionistas == null) {
-     * InversionistaServices is = new InversionistaServices();
-     * listInversionistas = is.getAllInversionistas();
-     * }
-     * return listInversionistas;
-     * }
-     * 
-     * // Metodo que obtiene los inversionistas de un proyecto
-     * public LinkedList getInversionistasByProyectoId(Integer proyectoId) throws
-     * Exception {
-     * Inversionista[] allInversionistas = getAllInversionistas().toArray();
-     * 
-     * LinkedList inversionistasAsociados = new LinkedList<>();
-     * for (Inversionista inversionista : allInversionistas) {
-     * if (inversionista.getProyectoId() == proyectoId) {
-     * inversionistasAsociados.add(inversionista);
-     * }
-     * }
-     * return inversionistasAsociados;
-     * }
-     */
+
+    public void actualizarMontoInversion(Integer id, Double monto) throws Exception {
+        Proyecto p = getProyectoById(id);
+        Double inversionAcumulada = p.getInversion();
+        inversionAcumulada += monto;
+        p.setInversion(inversionAcumulada);
+        Integer index = getProyectoIndex("id", id);
+        merge(p, index);
+    }
 
     public Boolean update() throws Exception {
         if (this.proyecto == null || this.proyecto.getId() == null) {
@@ -114,7 +69,7 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         if (listAll == null) {
             listAll = listAll();
         }
-        Integer index = getPersonaIndex("id", this.proyecto.getId());
+        Integer index = getProyectoIndex("id", this.proyecto.getId());
         if (index == -1) {
             throw new Exception("Proyecto no encontrado.");
         }
@@ -134,7 +89,7 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         if (listAll == null) {
             listAll = listAll();
         }
-        Integer index = getPersonaIndex("id", this.proyecto.getId());
+        Integer index = getProyectoIndex("id", this.proyecto.getId());
         if (index == -1) {
             throw new Exception("Proyecto no encontrado.");
         }
@@ -148,11 +103,11 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
     }
 
     public LinkedList<Proyecto> buscar(String attribute, Object value) throws Exception {
-        LinkedList<Proyecto> listAll = listAll();
+        LinkedList<Proyecto> lista = listAll();
         LinkedList<Proyecto> proyectos = new LinkedList<>();
 
-        if (!listAll.isEmpty()) {
-            Proyecto[] proyectosArray = listAll.toArray();
+        if (!lista.isEmpty()) {
+            Proyecto[] proyectosArray = lista.toArray();
             for (Proyecto p : proyectosArray) {
                 if (obtenerAttributeValue(p, attribute).toString().toLowerCase()
                         .equals(value.toString().toLowerCase())) {
@@ -164,23 +119,23 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
     }
 
     public Proyecto buscarPor(String attribute, Object value) throws Exception {
-        LinkedList<Proyecto> listAll = listAll();
-        Proyecto proyecto = null;
+        LinkedList<Proyecto> lista = listAll();
+        Proyecto p = null;
 
-        if (!listAll.isEmpty()) {
-            Proyecto[] proyectos = listAll.toArray();
+        if (!lista.isEmpty()) {
+            Proyecto[] proyectos = lista.toArray();
             for (int i = 0; i < proyectos.length; i++) {
                 if (obtenerAttributeValue(proyectos[i], attribute).toString().toLowerCase()
                         .equals(value.toString().toLowerCase())) {
-                    proyecto = proyectos[i];
+                    p = proyectos[i];
                     break;
                 }
             }
         }
-        return proyecto;
+        return p;
     }
 
-    private Integer getPersonaIndex(String attribute, Object value) throws Exception {
+    private Integer getProyectoIndex(String attribute, Object value) throws Exception {
         if (this.listAll == null) {
             this.listAll = listAll();
         }
@@ -209,12 +164,12 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
     }
 
     public LinkedList<Proyecto> orderList(String attribute, Integer order) throws Exception {
-        LinkedList<Proyecto> listAll = listAll();
+        LinkedList<Proyecto> lista = listAll();
 
-        if (!listAll.isEmpty()) {
-            listAll.order(attribute, order);
+        if (!lista.isEmpty()) {
+            lista.order(attribute, order);
         }
-        return listAll;
+        return lista;
     }
 
     private Object obtenerAttributeValue(Object object, String attribute) throws Exception {
@@ -227,8 +182,8 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         return g.toJson(this.proyecto);
     }
 
-    public Proyecto getProyectoByIndex(Integer index) throws Exception {
-        return get(index);
+    public Proyecto getProyectoById(Integer id) throws Exception {
+        return get(id);
     }
 
     public String getProyectoJasonByIndex(Integer index) throws Exception {

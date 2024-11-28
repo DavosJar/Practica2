@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import com.sistema_energia.controller.dao.services.EventoCrudServices;
 import com.sistema_energia.controller.dao.services.InversionistaServices;
 import com.sistema_energia.controller.excepction.ListEmptyException;
+import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.TipoCrud;
 
 @SuppressWarnings("rawtypes")
@@ -23,16 +24,25 @@ public class InversionistaApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
-    public Response getAllInversionistas() throws ListEmptyException, Exception {
-        HashMap<String, Object> map = new HashMap<>();
+    public Response getAllProyects() throws ListEmptyException, Exception {
+        HashMap<String, Object> res = new HashMap<>();
         InversionistaServices is = new InversionistaServices();
+        EventoCrudServices ev = new EventoCrudServices();
         try {
-            map.put("msg", "OK");
-            map.put("data", is.getAllInversionistas());
-            return Response.ok(map).build();
+            res.put("status", "OK");
+            LinkedList lista = is.listAll();
+            res.put("msg", "Consulta exitosa.");
+            res.put("data", lista.toArray());
+            if (lista.isEmpty()) {
+                res.put("data", new Object[] {});
+            }
+            ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de inversionistas.");
+            return Response.ok(res).build();
         } catch (Exception e) {
-            map.put("msg", "Error al obtener la lista de inversionistas: " + e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+            res.put("status", "ERROR");
+            res.put("msg", "Error al obtener la lista de inversionistas: " + e.getMessage());
+            ev.registrarEvento(TipoCrud.LIST, "Error inesperado: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
 
@@ -61,12 +71,11 @@ public class InversionistaApi {
             is.getInversionista().setMontoInvertido(Double.parseDouble(map.get("montoInvertido").toString()));
             is.getInversionista().setSector(is.getSector(map.get("sector").toString()));
             is.getInversionista().setUbicacion(is.getProvincia(map.get("ubicacion").toString()));
-            is.getInversionista().setProyectoId(Integer.valueOf(map.get("proyectoId").toString()));
 
             // Guardar inversionista
             is.save();
-            res.put("MSG", "OK");
-            res.put("DATA", is.toJson() + " Guardado con exito");
+            res.put("msg", "OK");
+            res.put("data", " Guardado con exito");
             ec.registrarEvento(TipoCrud.CREATE,
                     "Se ha creado un nuevo inversionista: " + is.getInversionista().getNombre());
             return Response.ok(res).build();
@@ -88,7 +97,7 @@ public class InversionistaApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/{id}")
-    public Response getProyectoById(@PathParam("id") String id) throws Exception {
+    public Response getInversionistaById(@PathParam("id") String id) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         InversionistaServices is = new InversionistaServices();
         EventoCrudServices ec = new EventoCrudServices();

@@ -15,32 +15,63 @@ public class InversionistaServices {
         obj = new InversionistaDao();
     }
 
+    public Inversionista getInversionista() {
+        return obj.getInversionista();
+    }
+
     public Boolean save() throws Exception {
         return obj.save();
     }
 
-    public LinkedList<Inversionista> getAllInversionistas() throws Exception {
-        return obj.getAllInversionistas();
+    public Boolean delete() throws Exception {
+        return obj.delete();
+    }
+
+    public LinkedList<Inversionista> listAll() throws Exception {
+        return obj.getListAll();
     }
 
     public void setInversionista(Inversionista inversionista) {
         obj.setInversionista(inversionista);
     }
 
-    public String toJson() throws Exception {
-        return obj.toJson();
-    }
-
-    public Inversionista getInversionista() {
-        return obj.getInversionista();
-    }
-
     public Inversionista getInversionistaById(Integer id) throws Exception {
         return obj.getInversionistaById(id);
+
     }
 
-    public String getInversionistaJsonById(Integer id) throws Exception {
-        return obj.getInversionistaJsonById(id);
+    /*
+     * public Boolean saveInversionistaInversionista(Inversionista inversionista,
+     * int
+     * inversionistaId) throws Exception{
+     * return obj.saveInversionistaInversionista(inversionista, inversionistaId);
+     * }
+     * public LinkedList<Inversionista> getInversionistasByInversionistaId(Integer
+     * inversionistaId) throws Exception{
+     * return obj.getInversionistasByInversionistaId(inversionistaId);
+     * }
+     */
+
+    public String toJson() throws Exception {
+        return obj.toJson();
+
+    }
+
+    // Busquedas por atributos
+    public LinkedList<Inversionista> getInversionistasBy(String atributo, Object valor) throws Exception {
+        return obj.buscar(atributo, valor);
+    }
+
+    public LinkedList<Inversionista> orderListBy(String atributo, Integer orden) throws Exception {
+        return obj.orderList(atributo, orden);
+    }
+
+    public Inversionista obtenerInversionistaPor(String atributo, Object valor) throws Exception {
+        return obj.buscarPor(atributo, valor);
+    }
+
+    public Boolean update() throws Exception {
+        return obj.update();
     }
 
     public Sector getSector(String sector) {

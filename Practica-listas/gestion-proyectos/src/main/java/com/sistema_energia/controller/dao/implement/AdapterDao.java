@@ -2,6 +2,7 @@ package com.sistema_energia.controller.dao.implement;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -22,12 +23,16 @@ public class AdapterDao<T> implements InterfazDao<T> {
         this.g = new Gson();
     }
 
+    @Override
+
     public void persist(T object) throws Exception {
         LinkedList<T> list = listAll();
         list.add(object);
         String info = g.toJson(list.toArray());
         saveFile(info);
     }
+
+    @Override
 
     public void merge(T object, Integer index) throws Exception {
         LinkedList<T> list = listAll();
@@ -40,9 +45,9 @@ public class AdapterDao<T> implements InterfazDao<T> {
         String info = g.toJson(list.toArray());
         saveFile(info);
 
-        System.out.println("Archivo actualizado con la lista: " + info);
     }
 
+    @Override
     public LinkedList listAll() {
         LinkedList list = new LinkedList<>();
         try {
@@ -56,12 +61,48 @@ public class AdapterDao<T> implements InterfazDao<T> {
         return list;
     }
 
-    public T get(Integer index) throws Exception {
+    @Override
+    public T get(Integer id) throws Exception {
         LinkedList<T> list = listAll();
-        T[] lista = list.toArray();
-        return lista[index];
+        if (!list.isEmpty()) {
+            T[] matrix = list.toArray();
+            for (int i = 0; i < matrix.length; i++) {
+                if (getIdent(matrix[i]).intValue() == id.intValue()) {
+                    return matrix[i];
+                }
+            }
+        }
+        return null;
     }
 
+    private Integer getIdent(T obj) throws Exception {
+        try {
+            Method method = null;
+            for (Method m : clazz.getMethods()) {
+                if (m.getName().equalsIgnoreCase("getId")) {
+                    method = m;
+                    break;
+                }
+            }
+            if (method == null) {
+                for (Method m : clazz.getSuperclass().getMethods()) {
+                    if (m.getName().equalsIgnoreCase("getId")) {
+                        method = m;
+                        break;
+                    }
+                }
+            }
+            if (method != null) {
+                return (Integer) method.invoke(obj);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return -1;
+    }
+
+    @Override
     public void delete(Integer index) throws Exception {
         LinkedList list = listAll();
         list.delete(index);

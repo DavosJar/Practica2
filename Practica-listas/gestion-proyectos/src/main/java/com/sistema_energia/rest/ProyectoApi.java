@@ -26,7 +26,7 @@ import com.sistema_energia.controller.model.Proyecto;
 import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.TipoCrud;
 
-@SuppressWarnings({ "unchecked", "ConvertToTryWithResources", "rawtypes" })
+@SuppressWarnings({ "unchecked", "ConvertToTryWithResources", "rawtypes", "CallToPrintStackTrace" })
 @Path("/proyecto")
 public class ProyectoApi {
 
@@ -64,42 +64,22 @@ public class ProyectoApi {
         HashMap<String, Object> res = new HashMap<>();
         EventoCrudServices ev = new EventoCrudServices();
 
+        ProyectoServices ps = new ProyectoServices();
+        ps.getProyecto().setNombre(map.get("nombre").toString());
+        ps.getProyecto().setCostoEstimadoInicial(Double.parseDouble(map.get("costoEstimadoInicial").toString()));
+        ps.getProyecto().setFechaInicio(map.get("fechaInicio").toString());
+        ps.getProyecto().setTiempoDeVida(Integer.valueOf(map.get("tiempoDeVida").toString()));
+        ps.getProyecto()
+                .setCapacidad(map.get("capacidad") != null ? Integer.valueOf(map.get("capacidad").toString()) : 0);
+        ps.getProyecto().setTipoEnergia(ps.getTipoEnergia(map.get("tipoEnergia").toString()));
+        ps.getProyecto().setUbicacion(ps.getProvincia(map.get("ubicacion").toString()));
+        ps.getProyecto().setDescripcion(map.get("descripcion").toString());
+        ps.getProyecto().setEstado(ps.getEstado(map.get("estado").toString()));
         try {
-            if (map.get("nombre") == null || map.get("nombre").toString().isEmpty()) {
-                throw new IllegalArgumentException("El nombre es obligatorio.");
-            }
-            if (map.get("costoEstimadoInicial") == null
-                    || Double.parseDouble(map.get("costoEstimadoInicial").toString()) < 0) {
-                throw new IllegalArgumentException("El costo estimado inicial debe ser un numero positivo.");
-            }
-            if (map.get("inversion") == null || Double.parseDouble(map.get("inversion").toString()) < 0) {
-                throw new IllegalArgumentException("La inversion debe ser un numero positivo.");
-            }
-            if (map.get("fechaInicio") == null || map.get("fechaInicio").toString().isEmpty()) {
-                throw new IllegalArgumentException("La fecha de inicio es obligatoria.");
-            }
-            if (map.get("fechaFin") == null || map.get("fechaFin").toString().isEmpty()) {
-                throw new IllegalArgumentException("La fecha de fin es obligatoria.");
-            }
-            if (map.get("tiempoDeVida") == null || Integer.parseInt(map.get("tiempoDeVida").toString()) <= 0) {
-                throw new IllegalArgumentException("El tiempo de vida debe ser un numero entero positivo.");
-            }
-
-            ProyectoServices ps = new ProyectoServices();
-            ps.getProyecto().setNombre(map.get("nombre").toString());
-            ps.getProyecto().setCostoEstimadoInicial(Double.parseDouble(map.get("costoEstimadoInicial").toString()));
-            ps.getProyecto().setFechaInicio(map.get("fechaInicio").toString());
-            ps.getProyecto().setTiempoDeVida(Integer.valueOf(map.get("tiempoDeVida").toString()));
-            ps.getProyecto()
-                    .setCapacidad(map.get("capacidad") != null ? Integer.valueOf(map.get("capacidad").toString()) : 0);
-            ps.getProyecto().setTipoEnergia(ps.getTipoEnergia(map.get("tipoEnergia").toString()));
-            ps.getProyecto().setUbicacion(ps.getProvincia(map.get("ubicacion").toString()));
-            ps.getProyecto().setDescripcion(map.get("descripcion").toString());
-            ps.getProyecto().setEstado(ps.getEstado(map.get("estado").toString()));
 
             ps.save();
             res.put("msg", "OK");
-            res.put("data", ps.toJson() + " Guardado con exito");
+            res.put("data", " Guardado con exito");
             String nombreProyecto = ps.getProyecto().getNombre();
             ev.registrarEvento(TipoCrud.CREATE, "Se ha creado un nuevo proyecto." + nombreProyecto);
             return Response.ok(res).build();
@@ -144,13 +124,19 @@ public class ProyectoApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/{id}")
-    public Response getProyectoById(@PathParam("id") String id) throws Exception {
+    public Response getProyectoById(@PathParam("id") Integer id) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         EventoCrudServices ev = new EventoCrudServices();
         ProyectoServices ps = new ProyectoServices();
         try {
             map.put("msg", "OK");
-            map.put("data", ps.getProyectoByIndex(Integer.valueOf(id)));
+            map.put("data", ps.getProyectoById(id));
+            if (ps.getProyectoById(id) == null) {
+                map.put("msg", "ERROR");
+                map.put("data", "No se encontro el proyecto con id: " + id);
+                ev.registrarEvento(TipoCrud.READ, "No se encontro el proyecto con id: " + id);
+                return Response.status(Status.NOT_FOUND).entity(map).build();
+            }
             ev.registrarEvento(TipoCrud.READ, "Se ha consultado el proyecto con id: " + id);
             return Response.ok(map).build();
         } catch (Exception e) {
@@ -175,7 +161,7 @@ public class ProyectoApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/tipo-energia")
+    @Path("/tipos")
     public Response getTipoEnergia() throws ListEmptyException, Exception {
         HashMap<String, Object> map = new HashMap<>();
         ProyectoServices ps = new ProyectoServices();
@@ -324,36 +310,24 @@ public class ProyectoApi {
         HashMap<String, Object> res = new HashMap<>();
         ProyectoServices ps = new ProyectoServices();
         EventoCrudServices ev = new EventoCrudServices();
+        ps.getProyecto().setId(id);
+        ps.getProyecto().setNombre(map.get("nombre").toString());
+        ps.getProyecto().setCostoEstimadoInicial(Double.parseDouble(map.get("costoEstimadoInicial").toString()));
+        ps.getProyecto().setInversion(Double.parseDouble(map.get("inversion").toString()));
+        ps.getProyecto().setFechaInicio(map.get("fechaInicio").toString());
+        ps.getProyecto().setTiempoDeVida(Integer.valueOf(map.get("tiempoDeVida").toString()));
+        ps.getProyecto()
+                .setCapacidad(map.get("capacidad") != null ? Integer.valueOf(map.get("capacidad").toString()) : 0);
+        ps.getProyecto().setTipoEnergia(ps.getTipoEnergia(map.get("tipoEnergia").toString()));
+        ps.getProyecto().setUbicacion(ps.getProvincia(map.get("ubicacion").toString()));
+        ps.getProyecto().setDescripcion(map.get("descripcion").toString());
+        ps.getProyecto().setEstado(ps.getEstado(map.get("estado").toString()));
+        if (map.containsKey("fechaFin") && map.get("fechaFin") != null) {
+            ps.getProyecto().setFechaFin(map.get("fechaFin").toString());
+        } else {
+            ps.getProyecto().setFechaFin(null);
+        }
         try {
-            if (map.get("nombre") == null || map.get("nombre").toString().isEmpty()) {
-                throw new IllegalArgumentException("El nombre es obligatorio.");
-            }
-            if (map.get("costoEstimadoInicial") == null
-                    || Double.parseDouble(map.get("costoEstimadoInicial").toString()) < 0) {
-                throw new IllegalArgumentException("El costo estimado inicial debe ser un numero positivo.");
-            }
-            if (map.get("inversion") == null || Double.parseDouble(map.get("inversion").toString()) < 0) {
-                throw new IllegalArgumentException("La inversion debe ser un numero positivo.");
-            }
-            if (map.get("fechaInicio") == null || map.get("fechaInicio").toString().isEmpty()) {
-                throw new IllegalArgumentException("La fecha de inicio es obligatoria.");
-            }
-            if (map.get("tiempoDeVida") == null || Integer.parseInt(map.get("tiempoDeVida").toString()) <= 0) {
-                throw new IllegalArgumentException("El tiempo de vida debe ser un numero entero positivo.");
-            }
-
-            ps.getProyecto().setId(id);
-            ps.getProyecto().setNombre(map.get("nombre").toString());
-            ps.getProyecto().setCostoEstimadoInicial(Double.parseDouble(map.get("costoEstimadoInicial").toString()));
-            ps.getProyecto().setInversion(Double.parseDouble(map.get("inversion").toString()));
-            ps.getProyecto().setFechaInicio(map.get("fechaInicio").toString());
-            ps.getProyecto().setTiempoDeVida(Integer.valueOf(map.get("tiempoDeVida").toString()));
-            ps.getProyecto()
-                    .setCapacidad(map.get("capacidad") != null ? Integer.valueOf(map.get("capacidad").toString()) : 0);
-            ps.getProyecto().setTipoEnergia(ps.getTipoEnergia(map.get("tipoEnergia").toString()));
-            ps.getProyecto().setUbicacion(ps.getProvincia(map.get("ubicacion").toString()));
-            ps.getProyecto().setDescripcion(map.get("descripcion").toString());
-            ps.getProyecto().setEstado(ps.getEstado(map.get("estado").toString()));
 
             ps.update();
             res.put("msg", "OK");

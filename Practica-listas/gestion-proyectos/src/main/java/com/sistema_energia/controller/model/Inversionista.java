@@ -7,20 +7,8 @@ public class Inversionista {
     private Double montoInvertido;
     private Sector sector;
     private Provincia ubicacion;
-    private Integer proyectoId;
-    
 
     public Inversionista() {
-    }
-
-    public Inversionista(Integer id, String nombre, String registro, Double montoInvertido, Sector sector, Provincia ubicacion, Integer proyectoId) {
-        this.id = id;
-        this.nombre = nombre;
-        this.registro = registro;
-        this.montoInvertido = montoInvertido;
-        this.sector = sector;
-        this.ubicacion = ubicacion;
-        this.proyectoId = proyectoId;
     }
 
     public Integer getId() {
@@ -71,12 +59,4 @@ public class Inversionista {
         this.ubicacion = ubicacion;
     }
 
-    public Integer getProyectoId() {
-        return proyectoId;
-    }
-
-    public void setProyectoId(Integer proyectoId) {
-        this.proyectoId = proyectoId;
-    }
-    
 }

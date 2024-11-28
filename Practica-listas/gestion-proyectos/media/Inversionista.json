@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "nombre": "Juan Pérez",
+        "registro": "123456",
+        "montoInvertido": 100000.5,
+        "sector": "PRIVADO",
+        "ubicacion": "LOJA",
+        "proyectoId": 42
+    },
+    {
+        "id": 2,
+        "nombre": "Juan sdasdPérez",
+        "registro": "123456",
+        "montoInvertido": 100000.5,
+        "sector": "PRIVADO",
+        "ubicacion": "LOJA",
+        "proyectoId": 42
+    },
+    {
+        "id": 3,
+        "nombre": "Juan sdasdPérez",
+        "registro": "123456",
+        "montoInvertido": 100000.5,
+        "sector": "PRIVADO",
+        "ubicacion": "LOJA"
+    }
+]

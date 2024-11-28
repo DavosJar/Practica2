@@ -17,21 +17,6 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    public Proyecto(Integer id, String nombre, double inversion, String fechaInicio, String fechaFin,
-            Integer tiempoDeVida,
-            TipoEnergia tipoEnergia, Provincia ubicacion, String descripcion, Estado estado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.inversion = inversion;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.tiempoDeVida = tiempoDeVida;
-        this.tipoEnergia = tipoEnergia;
-        this.ubicacion = ubicacion;
-        this.descripcion = descripcion;
-        this.estado = estado;
-    }
-
     public Integer getId() {
         return id;
     }

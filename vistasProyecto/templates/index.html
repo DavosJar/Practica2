@@ -6,7 +6,7 @@
 <div class="content-container">
     <h2>Bienvenido al Sistema de Gestión de Proyectos</h2>
     <div class="d-flex align-items-center mb-4">
-        <a href="{{ url_for('router.crear_proyecto') }}" class="btn btn-primary">Agregar Proyecto</a>       
+        <a href="{{ url_for('proyecto.save_proyecto') }}" class="btn btn-primary">Agregar Proyecto</a>       
     </div>
 </div>
 
@@ -17,6 +17,7 @@
                 <tr>
                     <th class="text-center">ID</th>
                     <th class="text-center">Nombre</th>
+                    <th class="text-center">Costo Inicial</th>
                     <th class="text-center">Inversión</th>
                     <th class="text-center">Fecha Inicio</th>
                     <th class="text-center">Fecha Fin</th>
@@ -31,7 +32,8 @@
                 {% for item in lista %}
                 <tr class="text-center" style="height: 60px;"> 
                     <td>{{ item.id }}</td>
-                    <td><a href="{{ url_for('router.proyecto', id=item.id) }}">{{ item.nombre }}</a></td>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.costoEstimadoInicial }}</td>
                     <td>{{ item.inversion }}</td>
                     <td>{{ item.fechaInicio }}</td>
                     <td>{{ item.fechaFin }}</td>

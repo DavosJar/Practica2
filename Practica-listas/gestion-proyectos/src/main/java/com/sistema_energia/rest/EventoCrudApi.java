@@ -21,12 +21,12 @@ import com.sistema_energia.eventos.EventoCrud;
 
 @Path("/evento")
 public class EventoCrudApi {
-    private EventoCrudServices ev = new EventoCrudServices();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public Response getAllEventos() throws ListEmptyException, Exception {
+        EventoCrudServices ev = new EventoCrudServices();
         HashMap<String, Object> map = new HashMap<>();
         try {
             LinkedList<EventoCrud> eventos = ev.getAllEventosCrud();
@@ -44,8 +44,9 @@ public class EventoCrudApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/list/{id}")
+    @Path("/get/{id}")
     public Response getEventoById(@PathParam("id") Integer id) {
+        EventoCrudServices ev = new EventoCrudServices();
         HashMap<String, Object> map = new HashMap<>();
         try {
             EventoCrud evento = ev.getEventoCrudById(id);
