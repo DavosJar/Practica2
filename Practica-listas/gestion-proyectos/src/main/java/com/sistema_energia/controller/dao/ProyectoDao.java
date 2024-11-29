@@ -157,7 +157,11 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         LinkedList<String> attributes = new LinkedList<>();
         for (Method m : Proyecto.class.getDeclaredMethods()) {
             if (m.getName().startsWith("get")) {
-                attributes.add(m.getName().substring(3).toLowerCase());
+                // Extraer el nombre del atributo de la forma 'getFechaInicio'
+                String attribute = m.getName().substring(3); // Eliminar el "get"
+                // Deja el primer caracter del atributo en minúscula y el resto igual (preservar
+                // camelCase)
+                attributes.add(attribute.substring(0, 1).toLowerCase() + attribute.substring(1));
             }
         }
         return attributes.toArray();
