@@ -7,11 +7,12 @@ URL = 'http://localhost:8090/api/proyecto'
 
 @proyecto.route('/')
 def home():
+    criterios = charge_options(f'{URL}/list/criteria')
     try:
         r = requests.get(f'{URL}/list')
         r.raise_for_status()
         data = r.json()
-        return render_template('index.html', lista=data["data"])
+        return render_template('index.html', lista=data["data"], opciones = criterios)
     except requests.RequestException as e:
         print(f"Error al obtener la lista de proyectos: {e}")
         return render_template('index.html', lista=[])
@@ -143,8 +144,28 @@ def update_proyecto(id):
         print(f"Error al crear el proyecto: {e}")
         return redirect(url_for('proyecto.supdate_proyecto(id)'))
     
-    
-
+@proyecto.route('/list/search/<attribute>/<value>', methods=['GET'])
+def search_criteria(attribute, value):
+    try:
+        r = requests.get(f'{URL}/search/{attribute}/{value}')
+        r.raise_for_status()
+        data = r.json()
+        return render_template('index.html', lista=data["data"])
+    except requests.RequestException as e:
+        print(f"Error al obtener la lista de proyectos: {e}")
+        return render_template('index.html', lista=[])
+@proyecto.route('list/sort/<attribute>/<type>', methods=['GET'])
+def order_list(attribute, type):
+    criterios = charge_options(f'{URL}/list/criteria')
+    print(criterios)
+    try:
+        r = requests.get(f'{URL}/list/order/{attribute}/{type}')
+        r.raise_for_status()
+        data = r.json()
+        return render_template('index.html', lista=data["data"], opciones = criterios)
+    except requests.RequestException as e:
+        print(f"Error al obtener la lista de proyectos: {e}")
+        return render_template('index.html', lista=[])
 def charge_options(endpoint):
     try:
         response = requests.get(endpoint)

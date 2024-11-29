@@ -1,5 +1,6 @@
 package com.sistema_energia.controller.tda.list;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.sistema_energia.controller.excepction.ListEmptyException;
@@ -269,33 +270,178 @@ public class LinkedList<E> {
         return this;
     }
 
+    public LinkedList<E> shellSort(String attribute, Integer type) throws Exception {
+        if (!isEmpty()) {
+            E[] lista = this.toArray();
+            reset();
+            int n = lista.length;
+
+            for (int gap = n / 2; gap > 0; gap /= 2) {
+                for (int i = gap; i < n; i++) {
+                    E aux = lista[i];
+                    int j = i;
+
+                    while (j >= gap && attributeCompare(attribute, lista[j - gap], aux, type)) {
+                        lista[j] = lista[j - gap];
+                        j -= gap;
+                    }
+
+                    lista[j] = aux;
+                }
+            }
+
+            this.toList(lista);
+        }
+        return this;
+    }
+
+    public LinkedList<E> quickSort(String attribute, Integer type) throws Exception {
+        if (!isEmpty()) {
+            E[] lista = this.toArray();
+            reset();
+            quickSort(lista, 0, lista.length - 1, attribute, type);
+            this.toList(lista);
+        }
+        return this;
+    }
+
+    private void quickSort(E[] lista, Integer low, Integer high, String attribute, Integer type) throws Exception {
+        if (low < high) {
+
+            Integer pivot = particion(lista, low, high, attribute, type);
+
+            quickSort(lista, low, pivot - 1, attribute, type);
+            quickSort(lista, pivot + 1, high, attribute, type);
+        }
+    }
+
+    private Integer particion(E[] lista, Integer low, Integer high, String attribute, Integer type) throws Exception {
+        E pivot = lista[high];
+
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (attributeCompare(attribute, lista[j], pivot, type)) {
+                i++;
+                E aux = lista[i];
+                lista[i] = lista[j];
+                lista[j] = aux;
+            }
+        }
+
+        E aux = lista[i + 1];
+        lista[i + 1] = lista[high];
+        lista[high] = aux;
+
+        return i + 1;
+    }
+
+    public LinkedList<E> mergeSort(String atribute, Integer type) throws Exception {
+        if (!isEmpty()) {
+            E[] lista = this.toArray();
+            reset();
+            mergeSort(lista, 0, lista.length - 1, atribute, type);
+            this.toList(lista);
+        }
+        return this;
+    }
+
+    private void mergeSort(E[] lista, Integer l, Integer r, String attribute, Integer type) throws Exception {
+        if (l < r) {
+            int m = (l + r) / 2;
+            mergeSort(lista, l, m, attribute, type);
+            mergeSort(lista, m + 1, r, attribute, type);
+            merge(lista, l, m, r, attribute, type);
+        }
+    }
+
+    private void merge(E[] lista, Integer l, Integer m, Integer r, String attribute, Integer type) throws Exception {
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+        E[] L = (E[]) java.lang.reflect.Array.newInstance(lista.getClass().getComponentType(), n1);
+        E[] R = (E[]) java.lang.reflect.Array.newInstance(lista.getClass().getComponentType(), n2);
+
+        for (int i = 0; i < n1; i++) {
+            L[i] = lista[l + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            R[j] = lista[m + 1 + j];
+        }
+
+        int leftIndex = 0, rightIndex = 0;
+        int k = l;
+
+        while (leftIndex < n1 && rightIndex < n2) {
+            boolean condicion = attributeCompare(attribute, L[leftIndex], R[rightIndex], type);
+            if (condicion) {
+                lista[k] = L[leftIndex];
+                leftIndex++;
+            } else {
+                lista[k] = R[rightIndex];
+                rightIndex++;
+            }
+            k++;
+        }
+
+        while (leftIndex < n1) {
+            lista[k] = L[leftIndex];
+            leftIndex++;
+            k++;
+        }
+
+        while (rightIndex < n2) {
+            lista[k] = R[rightIndex];
+            rightIndex++;
+            k++;
+        }
+    }
+
     private Boolean attributeCompare(String attribute, E a, E b, Integer type) throws Exception {
         return compare(existAttribute(a, attribute), existAttribute(b, attribute), type);
     }
 
-    private Object existAttribute(E a, String attribute) throws Exception {
+    private Object existAttribute(E a, String attribute) throws NoSuchMethodException {
         Method method = null;
-        attribute = attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
-        attribute = "get" + attribute;
-        for (Method m : a.getClass().getMethods()) {
-            if (m.getName().contains(attribute)) {
-                method = m;
-                break;
-            }
-        }
-        if (method == null) {
-            for (Method m : a.getClass().getSuperclass().getMethods()) {
-                if (m.getName().contains(attribute)) {
+        try {
+            attribute = attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+            attribute = "get" + attribute; // Crear el nombre del método getter correspondiente
+
+            for (Method m : a.getClass().getMethods()) {
+                if (m.getName().equals(attribute)) { // Comparar si el nombre del método coincide
                     method = m;
                     break;
                 }
             }
-        }
-        if (method != null) {
-            return method.invoke(a);
+
+            if (method == null) {
+                for (Method m : a.getClass().getSuperclass().getMethods()) {
+                    if (m.getName().equals(attribute)) {
+                        method = m;
+                        break;
+                    }
+                }
+            }
+
+            if (method != null) {
+                return method.invoke(a);
+            }
+
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            System.out.println("Error al invocar el método para el atributo: " + attribute);
+            e.printStackTrace();
         }
 
-        return null;
+        return null; // Retorna null si no se encontró el atributo o hubo un error
+    }
+
+    public String toString1() {
+        StringBuilder sb = new StringBuilder();
+        Node<E> search = head;
+        while (search != null) {
+            sb.append(search.getData());
+            search = search.getNext();
+        }
+        return sb.toString();
     }
 
     private Boolean compare(Object a, Object b, Integer type) throws Exception {
@@ -406,9 +552,9 @@ public class LinkedList<E> {
     // no retorna nada
     private void quickSort(E[] lista, Integer low, Integer high, Integer type) {
         if (low < high) {
-            Integer pi = particion(lista, low, high, type);
-            quickSort(lista, low, pi - 1, type);
-            quickSort(lista, pi + 1, high, type);
+            Integer pivot = particion(lista, low, high, type);
+            quickSort(lista, low, pivot - 1, type);
+            quickSort(lista, pivot + 1, high, type);
         }
     }
 

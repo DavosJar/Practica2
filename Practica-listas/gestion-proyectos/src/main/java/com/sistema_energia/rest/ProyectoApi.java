@@ -401,35 +401,69 @@ public class ProyectoApi {
         }
     }
 
+    /*
+     * @GET
+     * 
+     * @Produces(MediaType.APPLICATION_JSON)
+     * 
+     * @Path("/list/order/{attribute}/{type}")
+     * public Response orderList(@PathParam("attribute") String
+     * attribute, @PathParam("type") Integer type)
+     * throws Exception {
+     * HashMap<String, Object> res = new HashMap<>();
+     * ProyectoServices ps = new ProyectoServices();
+     * EventoCrudServices ev = new EventoCrudServices();
+     * try {
+     * if (attribute == null || attribute.isEmpty() || type == null ||
+     * type.toString().isEmpty()) {
+     * throw new
+     * IllegalArgumentException("Los parametros no pueden ser nulos o vacios.");
+     * }
+     * if (type != 1 && type != 0) {
+     * throw new IllegalArgumentException("El tipo de ordenamiento no es valido.");
+     * }
+     * 
+     * LinkedList<Proyecto> proyectos = ps.orderListBy(attribute, type);
+     * res.put("status", "OK");
+     * res.put("msg", "Consulta exitosa.");
+     * res.put("data", proyectos.toArray());
+     * if (proyectos.isEmpty()) {
+     * res.put("data", new Object[] {});
+     * }
+     * ev.registrarEvento(TipoCrud.LIST,
+     * "Se ha consultado la lista de proyectos ordenada por " + attribute + " "
+     * + type + ".");
+     * return Response.ok(res).build();
+     * } catch (Exception e) {
+     * res.put("status", "ERROR");
+     * res.put("msg", "Error al ordenar la lista: " + e.getMessage());
+     * ev.registrarEvento(TipoCrud.LIST, "Error inesperado: " + e.getMessage());
+     * return
+     * Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+     * }
+     * }
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/list/order/{attribute}/{type}")
-    public Response orderList(@PathParam("attribute") String attribute, @PathParam("type") Integer type)
+    @Path("list/order/{attribute}/{type}")
+    public Response listOrder(@PathParam("attribute") String attribute, @PathParam("type") Integer type)
             throws Exception {
         HashMap<String, Object> res = new HashMap<>();
         ProyectoServices ps = new ProyectoServices();
         EventoCrudServices ev = new EventoCrudServices();
         try {
-            if (attribute == null || attribute.isEmpty() || type == null || type.toString().isEmpty()) {
-                throw new IllegalArgumentException("Los parametros no pueden ser nulos o vacios.");
-            }
-            if (type != 1 && type != 0) {
-                throw new IllegalArgumentException("El tipo de ordenamiento no es valido.");
-            }
-
-            LinkedList<Proyecto> proyectos = ps.orderListBy(attribute, type);
             res.put("status", "OK");
+            LinkedList lista = ps.orderListBy(attribute, type);
             res.put("msg", "Consulta exitosa.");
-            res.put("data", proyectos.toArray());
-            if (proyectos.isEmpty()) {
+            res.put("data", lista.toArray());
+            if (lista.isEmpty()) {
                 res.put("data", new Object[] {});
             }
-            ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de proyectos ordenada por " + attribute + " "
-                    + type + ".");
+            ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de proyectos.");
             return Response.ok(res).build();
         } catch (Exception e) {
             res.put("status", "ERROR");
-            res.put("msg", "Error al ordenar la lista: " + e.getMessage());
+            res.put("msg", "Error al obtener la lista de proyectos: " + e.getMessage());
             ev.registrarEvento(TipoCrud.LIST, "Error inesperado: " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }

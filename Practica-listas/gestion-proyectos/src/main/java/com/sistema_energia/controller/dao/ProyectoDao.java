@@ -167,7 +167,7 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         LinkedList<Proyecto> lista = listAll();
 
         if (!lista.isEmpty()) {
-            lista.order(attribute, order);
+            lista.mergeSort(attribute, order);
         }
         return lista;
     }
@@ -212,10 +212,6 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
 
     public Estado[] getEstado() {
         return Estado.values();
-    }
-
-    public Proyecto getProyectoB(Integer Index) throws Exception {
-        return get(Index);
     }
 
     public String getProyectoJson(Integer Index) throws Exception {

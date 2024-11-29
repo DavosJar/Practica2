@@ -1,36 +1,49 @@
 {% extends "base.html" %}
+
 {% block title %}Detalles del Proyecto{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h2 class="my-4">Detalles del Proyecto</h2>
+<div class="container my-5">
     <div class="d-flex align-items-center mb-4">
-        <a href="{{ url_for('proyecto.home') }}" class="btn btn-primary mt-3">Volver a la lista de proyectos</a>
+        <a href="{{ url_for('proyecto.home') }}" class="btn btn-outline-primary rounded-pill">
+            <i class="fas fa-arrow-left mr-2"></i> Volver a la lista de proyectos
+        </a>
     </div>
+    <h2 class="text-secondary mb-4 font-weight-bold">Detalles del Proyecto</h2>
+    
+    <h3 class="text-primary mb-4 font-weight-bold">{{ proyecto.nombre }}</h3>
+
+    
+
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card shadow-lg mb-4 border-light rounded-lg">
                 <div class="card-body">
-                    <h5 class="card-title">{{ proyecto.nombre }}</h5>
-                    <p class="card-text"><strong>Costo Inicial:</strong> {{ proyecto.costoEstimadoInicial }}</p>
-                    <p class="card-text"><strong>Fecha de Inicio:</strong> {{ proyecto.fechaInicio }}</p>
-                    <p class="card-text"><strong>Tiempo de Vida (años):</strong> {{ proyecto.tiempoDeida }}</p>
-                    <p class="card-text"><strong>Capacidad (MW):</strong> {{ proyecto.capacidad }}</p>
-                    <p class="card-text"><strong>Inversión:</strong> {{ proyecto.inversion }}</p>
+                    <p class="card-text"><strong>Costo Inicial:</strong> <span class="text-muted">{{ proyecto.costoEstimadoInicial }}</span></p>
+                    <p class="card-text"><strong>Fecha de Inicio:</strong> <span class="text-muted">{{ proyecto.fechaInicio }}</span></p>
+                    <p class="card-text"><strong>Tiempo de Vida (años):</strong> <span class="text-muted">{{ proyecto.tiempoDeVida }}</span></p>
+                    <p class="card-text"><strong>Capacidad (MW):</strong> <span class="text-muted">{{ proyecto.capacidad }}</span></p>
+                    <p class="card-text"><strong>Inversión:</strong> <span class="text-muted">{{ proyecto.inversion }}</span></p>
                 </div>
             </div>
         </div>
+
+        <!-- Columna derecha (detalles técnicos y descripción) -->
         <div class="col-md-6">
-            <div class="card">
+            <div class="card shadow-lg mb-4 border-light rounded-lg">
                 <div class="card-body">
-                    <p class="card-text"><strong>Tipo de Energía:</strong> {{ proyecto.tipoEnergia }}</p>
-                    <p class="card-text"><strong>Ubicación:</strong> {{ proyecto.ubicacion }}</p>
-                    <p class="card-text"><strong>Descripción:</strong> {{ proyecto.descripcion }}</p>
-                    <p class="card-text"><strong>Estado:</strong> {{ proyecto.estado }}</p>
-                    <p class="card-text"><strong>Fecha de Fin:</strong> {{ proyecto.fechaFin }}</p>
+                    <p class="card-text"><strong>Tipo de Energía:</strong> <span class="text-muted">{{ proyecto.tipoEnergia }}</span></p>
+                    <p class="card-text"><strong>Ubicación:</strong> <span class="text-muted">{{ proyecto.ubicacion }}</span></p>
+                    <p class="card-text"><strong>Estado:</strong> <span class="text-muted">{{ proyecto.estado }}</span></p>
+                    <p class="card-text"><strong>Fecha de Fin:</strong> <span class="text-muted">{{ proyecto.fechaFin }}</span></p>
+                    <p class="card-text"><strong>Descripción:</strong> <span class="text-muted">{{ proyecto.descripcion }}</span></p>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+
     <!--<div class="mt-4">
         <h3>Inversionistas</h3>
         <div class="table-responsive">
