@@ -404,10 +404,10 @@ public class LinkedList<E> {
         Method method = null;
         try {
             attribute = attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
-            attribute = "get" + attribute; // Crear el nombre del método getter correspondiente
+            attribute = "get" + attribute;
 
             for (Method m : a.getClass().getMethods()) {
-                if (m.getName().equals(attribute)) { // Comparar si el nombre del método coincide
+                if (m.getName().equalsIgnoreCase(attribute)) {
                     method = m;
                     break;
                 }
@@ -415,7 +415,7 @@ public class LinkedList<E> {
 
             if (method == null) {
                 for (Method m : a.getClass().getSuperclass().getMethods()) {
-                    if (m.getName().equals(attribute)) {
+                    if (m.getName().equalsIgnoreCase(attribute)) {
                         method = m;
                         break;
                     }
@@ -445,24 +445,34 @@ public class LinkedList<E> {
     }
 
     private Boolean compare(Object a, Object b, Integer type) throws Exception {
+        // Manejo de nulos
+        if (a == null && b == null) {
+            return false;
+        }
+        if (a == null) {
+            return type == 0 ? false : true;
+        }
+        if (b == null) {
+            return type == 0 ? true : false;
+        }
+
         switch (type) {
             case 0:
-                if (a instanceof Number) {
+                if (a instanceof Number && b instanceof Number) {
                     Number a1 = (Number) a;
                     Number b1 = (Number) b;
                     return a1.doubleValue() > b1.doubleValue();
                 } else {
-                    return (a.toString().toLowerCase()).compareTo(b.toString().toLowerCase()) > 0;
+                    return (a.toString().toLowerCase()).compareToIgnoreCase(b.toString().toLowerCase()) > 0;
                 }
             default:
-                if (a instanceof Number) {
+                if (a instanceof Number && b instanceof Number) {
                     Number a1 = (Number) a;
                     Number b1 = (Number) b;
                     return a1.doubleValue() < b1.doubleValue();
                 } else {
                     return (a.toString().toLowerCase()).compareTo(b.toString().toLowerCase()) < 0;
                 }
-
         }
     }
 

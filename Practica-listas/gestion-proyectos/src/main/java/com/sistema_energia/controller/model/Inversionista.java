@@ -4,7 +4,6 @@ public class Inversionista {
     private Integer id;
     private String nombre;
     private String registro;
-    private Double montoInvertido;
     private Sector sector;
     private Provincia ubicacion;
 
@@ -33,14 +32,6 @@ public class Inversionista {
 
     public void setRegistro(String registro) {
         this.registro = registro;
-    }
-
-    public Double getMontoInvertido() {
-        return montoInvertido;
-    }
-
-    public void setMontoInvertido(Double montoInvertido) {
-        this.montoInvertido = montoInvertido;
     }
 
     public Sector getSector() {

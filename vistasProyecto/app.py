@@ -6,6 +6,9 @@ def create_app():
     with app.app_context():
         from routes.route import router
         from routes.proyecto import proyecto
+        from routes.inversionista import inversionista
         app.register_blueprint(router)
         app.register_blueprint(proyecto, url_prefix='/proyecto')
+        app.register_blueprint(inversionista, url_prefix='/inversionista')
+        
     return app

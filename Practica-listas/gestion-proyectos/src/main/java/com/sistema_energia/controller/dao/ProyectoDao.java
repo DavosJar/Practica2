@@ -5,7 +5,9 @@ import java.lang.reflect.Method;
 import com.google.gson.Gson;
 import com.sistema_energia.controller.dao.implement.AdapterDao;
 import com.sistema_energia.controller.dao.implement.Contador;
+import com.sistema_energia.controller.dao.services.ParticipacionServices;
 import com.sistema_energia.controller.model.Estado;
+import com.sistema_energia.controller.model.Participacion;
 import com.sistema_energia.controller.model.Provincia;
 import com.sistema_energia.controller.model.Proyecto;
 import com.sistema_energia.controller.model.TipoEnergia;
@@ -53,13 +55,16 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         }
     }
 
-    public void actualizarMontoInversion(Integer id, Double monto) throws Exception {
-        Proyecto p = getProyectoById(id);
-        Double inversionAcumulada = p.getInversion();
-        inversionAcumulada += monto;
-        p.setInversion(inversionAcumulada);
-        Integer index = getProyectoIndex("id", id);
-        merge(p, index);
+    public void calcularInversion(Integer idProyecto) throws Exception {
+        ParticipacionServices ps = new ParticipacionServices();
+        LinkedList<Participacion> lista = ps.getParticipacionsBy("idProyecto", this.get(idProyecto).getId());
+        Participacion[] participaciones = lista.toArray();
+        Double inversion = 0.0;
+        for (Participacion p : participaciones) {
+            inversion += p.getMontoInvertido();
+        }
+        this.get(idProyecto).setInversion(inversion);
+        this.update();
     }
 
     public Boolean update() throws Exception {
@@ -157,11 +162,10 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         LinkedList<String> attributes = new LinkedList<>();
         for (Method m : Proyecto.class.getDeclaredMethods()) {
             if (m.getName().startsWith("get")) {
-                // Extraer el nombre del atributo de la forma 'getFechaInicio'
-                String attribute = m.getName().substring(3); // Eliminar el "get"
-                // Deja el primer caracter del atributo en minúscula y el resto igual (preservar
-                // camelCase)
-                attributes.add(attribute.substring(0, 1).toLowerCase() + attribute.substring(1));
+                String attribute = m.getName().substring(3);
+                if (!attribute.equalsIgnoreCase("id")) {
+                    attributes.add(attribute.substring(0, 1).toLowerCase() + attribute.substring(1));
+                }
             }
         }
         return attributes.toArray();
@@ -180,6 +184,23 @@ public class ProyectoDao extends AdapterDao<Proyecto> {
         Method method = object.getClass()
                 .getMethod("get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1));
         return method.invoke(object);
+    }
+
+    public LinkedList<Proyecto> selectOrder(String attribute, Integer order, String method) throws Exception {
+        LinkedList<Proyecto> lista = listAll();
+        if (!lista.isEmpty()) {
+            switch (method) {
+                case "merge":
+                    return lista.mergeSort(attribute, order);
+                case "quick":
+                    return lista.quickSort(attribute, order);
+                case "shell":
+                    return lista.shellSort(attribute, order);
+                default:
+                    throw new Exception("Metodo de ordenamiento no encontrado.");
+            }
+        }
+        return lista;
     }
 
     public String toJson() throws Exception {

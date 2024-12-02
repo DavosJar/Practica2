@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 import requests
 from datetime import datetime
 
-proyecto = Blueprint('proyecto', __name__)
-URL = 'http://localhost:8090/api/proyecto'
+inversionista = Blueprint('inversionista', __name__)
+URL = 'http://localhost:8090/api/inversionista'
 
-@proyecto.route('/')
+@inversionista.route('/')
 def home():
     criterios = charge_options(f'{URL}/list/criteria')
     
@@ -14,55 +14,55 @@ def home():
         r.raise_for_status()  
         data = r.json()
         
-        return render_template('lista_proyectos.html', lista=data["data"], opciones=criterios)
+        return render_template('lista_inversionistas.html', lista=data["data"], opciones=criterios)
     
     except requests.exceptions.RequestException as e:
-        print(f"Error al obtener la lista de proyectos: {e}")
-        return render_template('lista_proyectos.html', lista=[], error_message="Error inesperado al obtener los datos de la API.")
+        print(f"Error al obtener la lista de inversionistas: {e}")
+        return render_template('lista_inversionistas.html', lista=[], error_message="Error inesperado al obtener los datos de la API.")
 
 from flask import render_template, abort
 import requests
 
-@proyecto.route('/<id>')
-def proyecto_id(id):
+@inversionista.route('/<id>')
+def inversionista_id(id):
     try:
         r = requests.get(f'{URL}/get/{id}')
         r.raise_for_status()  
         
-        proyecto_data = r.json().get("data")
+        inversionista_data = r.json().get("data")
 
-        if proyecto_data is None or proyecto_data == "No se encontro el proyecto con id":
+        if inversionista_data is None or inversionista_data == "No se encontro el inversionista con id":
             return render_template('404.html')
         
-        return render_template('proyecto.html', proyecto=proyecto_data)
+        return render_template('inversionista.html', inversionista=inversionista_data)
 
     except requests.RequestException as e:
-        print(f"Error al obtener el proyecto: {e}")
+        print(f"Error al obtener el inversionista: {e}")
         return render_template('404.html') 
     
-@proyecto.route('/<id>/delete')
-def delete_proyecto(id):
+@inversionista.route('/<id>/delete')
+def delete_inversionista(id):
     try:
         r = requests.delete(f'{URL}/{id}/delete')
         r.raise_for_status()  
         
         if r.status_code == 200:
-            return redirect(url_for('proyecto.home'))
+            return redirect(url_for('inversionista.home'))
         else:
             error_message = r.json().get('data', 'Error desconocido')
-            print(f"Error al eliminar el proyecto: {error_message}")
+            print(f"Error al eliminar el inversionista: {error_message}")
             return redirect('/') 
     except requests.RequestException as e:
-        print(f"Error al eliminar el proyecto: {e}")
+        print(f"Error al eliminar el inversionista: {e}")
         return redirect('404.html') 
 
-@proyecto.route('/create', methods=['GET'])
-def save_proyecto():
+@inversionista.route('/create', methods=['GET'])
+def save_inversionista():
     tipo = charge_options(f'{URL}/tipos')
     estado = charge_options(f'{URL}/estado')
     provincia = charge_options(f'{URL}/provincia')
 
-    proyecto = {
+    inversionista = {
         "nombre": "",
         "descripcion": "",
         "fechaInicio": "",
@@ -75,10 +75,10 @@ def save_proyecto():
         "tiempoDeVida": ""
     }
 
-    return render_template('formproyectos.html', proyecto=proyecto, tipos=tipo, estado=estado, provincia=provincia, is_edit=False)
+    return render_template('forminversionistas.html', inversionista=inversionista, tipos=tipo, estado=estado, provincia=provincia, is_edit=False)
 
-@proyecto.route('/create', methods=['POST'])
-def post_proyecto_form():
+@inversionista.route('/create', methods=['POST'])
+def post_inversionista_form():
     fecha_fin = request.form.get('fecha_fin', '').strip()
     try:
         fecha_inicio = datetime.strptime(request.form.get('fecha_inicio'), "%Y-%m-%d").strftime("%Y-%m-%d")
@@ -107,21 +107,21 @@ def post_proyecto_form():
         response = requests.post(f'{URL}/save', json=data)
         response.raise_for_status()
 
-        return redirect(url_for('proyecto.home'))
+        return redirect(url_for('inversionista.home'))
 
     except requests.HTTPError as e:
         if e.response.status_code == 400: 
             error_msg = e.response.json().get("error", "Error de validacion.")
-            flash(f"Error al crear el proyecto: {error_msg}", "error")
+            flash(f"Error al crear el inversionista: {error_msg}", "error")
         else:
             flash(f"Error inesperado al comunicarse con la API: {e}", "error")
-        return redirect(url_for('proyecto.save_proyecto'))
+        return redirect(url_for('inversionista.save_inversionista'))
 
     except Exception as e:
         flash(f"Ocurrió un error inesperado: {str(e)}", "error")
-        return redirect(url_for('proyecto.save_proyecto'))
+        return redirect(url_for('inversionista.save_inversionista'))
     
-@proyecto.route('/<id>/edit', methods=['GET'])
+@inversionista.route('/<id>/edit', methods=['GET'])
 def update(id):
     try:
         r = requests.get(f'{URL}/get/{id}')
@@ -130,7 +130,7 @@ def update(id):
         
         if response.get("msg") != "OK":
             print(f"Error desde la API: {response.get('error', 'No especificado')}")
-            return redirect(url_for('proyecto.home'))
+            return redirect(url_for('inversionista.home'))
         
         data = response["data"]
         
@@ -139,14 +139,14 @@ def update(id):
         provincia = charge_options(f'{URL}/provincia')
         
         return render_template(
-            'formproyectos.html', proyecto=data, tipos=tipo, estado=estado, provincia=provincia, is_edit=True
+            'forminversionistas.html', inversionista=data, tipos=tipo, estado=estado, provincia=provincia, is_edit=True
         )
     except requests.RequestException as e:
         print(f"Error al conectar con la API: {e}")
-        return redirect(url_for('proyecto.home'))
+        return redirect(url_for('inversionista.home'))
 
-@proyecto.route('/<id>/edit', methods=['POST'])
-def update_proyecto(id):
+@inversionista.route('/<id>/edit', methods=['POST'])
+def update_inversionista(id):
     fecha_fin = request.form.get('fecha_fin', '').strip()
     try:
         fecha_inicio = datetime.strptime(request.form.get('fecha_inicio'), "%Y-%m-%d").strftime("%Y-%m-%d")
@@ -173,12 +173,12 @@ def update_proyecto(id):
         }
         response = requests.post(f'{URL}/update', json=data)
         response.raise_for_status()
-        return redirect(url_for('proyecto.home'))
+        return redirect(url_for('inversionista.home'))
     except requests.RequestException as e:
-        print(f"Error al crear el proyecto: {e}")
-        return redirect(url_for('proyecto.update_proyecto(id)'))
+        print(f"Error al crear el inversionista: {e}")
+        return redirect(url_for('inversionista.update_inversionista(id)'))
     
-@proyecto.route('list/sort/<attribute>/<type>/<metodo>', methods=['GET'])
+@inversionista.route('list/sort/<attribute>/<type>/<metodo>', methods=['GET'])
 def order_list(attribute, type, metodo):
     criterios = charge_options(f'{URL}/list/criteria')
     try:
@@ -191,13 +191,13 @@ def order_list(attribute, type, metodo):
         r = requests.get(f'{URL}/list/order/{attribute}/{type}/{metodo}')
         r.raise_for_status()
         data = r.json()
-        return render_template('lista_proyectos.html', lista=data["data"], opciones=criterios)
+        return render_template('lista_inversionistas.html', lista=data["data"], opciones=criterios)
     
     except requests.RequestException as e:
-        print(f"Error al obtener la lista de proyectos: {e}")
-        return render_template('lista_proyectos.html', lista=[])
+        print(f"Error al obtener la lista de inversionistas: {e}")
+        return render_template('lista_inversionistas.html', lista=[])
 
-@proyecto.route('/list/search/<attribute>/<value>', methods=['GET'])
+@inversionista.route('/list/search/<attribute>/<value>', methods=['GET'])
 def search_criteria(attribute, value):
     criterios = charge_options(f'{URL}/list/criteria')  
     try:
@@ -207,18 +207,18 @@ def search_criteria(attribute, value):
         
         if response.get("status") == "ERROR":
             print(f"Error desde la API: {response.get('msg', 'Error desconocido')}")
-            return render_template('lista_proyectos.html', lista=[], opciones=criterios, error=response.get('msg'))
+            return render_template('lista_inversionistas.html', lista=[], opciones=criterios, error=response.get('msg'))
         
         data = response.get("data", [])
         
         if not isinstance(data, list):
             data = [data]
         
-        return render_template('lista_proyectos.html', lista=data, opciones=criterios)
+        return render_template('lista_inversionistas.html', lista=data, opciones=criterios)
     
     except requests.RequestException as e:
         print(f"Error al conectar con la API: {e}")
-        return render_template('lista_proyectos.html', lista=[], opciones=criterios, error="Error")
+        return render_template('lista_inversionistas.html', lista=[], opciones=criterios, error="Error")
     
 def charge_options(endpoint):
     try:

@@ -8,7 +8,6 @@ import com.sistema_energia.controller.tda.list.LinkedList;
 
 public class InversionistaServices {
 
-    @SuppressWarnings("FieldMayBeFinal")
     private InversionistaDao obj;
 
     public InversionistaServices() {
@@ -40,30 +39,21 @@ public class InversionistaServices {
 
     }
 
-    /*
-     * public Boolean saveInversionistaInversionista(Inversionista inversionista,
-     * int
-     * inversionistaId) throws Exception{
-     * return obj.saveInversionistaInversionista(inversionista, inversionistaId);
-     * }
-     * public LinkedList<Inversionista> getInversionistasByInversionistaId(Integer
-     * inversionistaId) throws Exception{
-     * return obj.getInversionistasByInversionistaId(inversionistaId);
-     * }
-     */
-
     public String toJson() throws Exception {
         return obj.toJson();
 
     }
 
-    // Busquedas por atributos
     public LinkedList<Inversionista> getInversionistasBy(String atributo, Object valor) throws Exception {
         return obj.buscar(atributo, valor);
     }
 
     public LinkedList<Inversionista> orderListBy(String atributo, Integer orden) throws Exception {
         return obj.orderList(atributo, orden);
+    }
+
+    public LinkedList<Inversionista> selectOrder(String atributo, Integer orden, String method) throws Exception {
+        return obj.selectOrder(atributo, orden, method);
     }
 
     public Inversionista obtenerInversionistaPor(String atributo, Object valor) throws Exception {
@@ -74,20 +64,24 @@ public class InversionistaServices {
         return obj.update();
     }
 
+    public Provincia getProvincia(String provincia) throws Exception {
+        return obj.getProvincia(provincia);
+    }
+
+    public Provincia[] getProvincia() throws Exception {
+        return obj.getProvincia();
+    }
+
+    public String[] getInversionistaAttributeLists() {
+        return obj.getInversionistaAttributeLists();
+    }
+
     public Sector getSector(String sector) {
         return Sector.valueOf(sector);
     }
 
     public Sector[] getSector() {
         return Sector.values();
-    }
-
-    public Provincia getProvincia(String provincia) {
-        return Provincia.valueOf(provincia);
-    }
-
-    public Provincia[] getProvincia() {
-        return Provincia.values();
     }
 
 }

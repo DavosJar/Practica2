@@ -62,17 +62,28 @@ public class AdapterDao<T> implements InterfazDao<T> {
     }
 
     @Override
+    // obtenet con busqueda binaria
     public T get(Integer id) throws Exception {
+        T obj = null;
         LinkedList<T> list = listAll();
         if (!list.isEmpty()) {
             T[] matrix = list.toArray();
-            for (int i = 0; i < matrix.length; i++) {
-                if (getIdent(matrix[i]).intValue() == id.intValue()) {
-                    return matrix[i];
+            int inicio = 0;
+            int fin = matrix.length - 1;
+            while (inicio <= fin) {
+                int medio = (inicio + fin) / 2;
+                obj = matrix[medio];
+                Integer ident = getIdent(obj);
+                if (ident.equals(id)) {
+                    return obj;
+                } else if (ident < id) {
+                    inicio = medio + 1;
+                } else {
+                    fin = medio - 1;
                 }
             }
         }
-        return null;
+        return obj;
     }
 
     private Integer getIdent(T obj) throws Exception {

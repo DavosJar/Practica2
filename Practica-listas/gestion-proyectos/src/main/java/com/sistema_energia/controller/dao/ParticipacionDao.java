@@ -12,7 +12,7 @@ import com.sistema_energia.controller.model.Provincia;
 import com.sistema_energia.controller.model.TipoEnergia;
 import com.sistema_energia.controller.tda.list.LinkedList;
 
-@SuppressWarnings({ "unchecked", "ConvertToTryWithResources", "FieldMayBeFinal" })
+@SuppressWarnings({ "unchecked", "ConvertToTryWithResources" })
 public class ParticipacionDao extends AdapterDao<Participacion> {
     private Participacion participacion;
     private LinkedList<Participacion> listAll;
@@ -52,73 +52,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         } catch (Exception e) {
             throw new Exception("Error al guardar el participacion: " + e.getMessage());
         }
-    }
-
-    /*
-     * private void actualizarInversionParticipacion(Double nuevoMontoInvertido)
-     * throws
-     * Exception {
-     * if (this.participacion == null) {
-     * throw new
-     * Exception("No hay un participacion actual para actualizar la inversión.");
-     * }
-     * this.participacion.setInversion(this.participacion.getInversion() +
-     * nuevoMontoInvertido);
-     * this.merge(this.participacion, this.participacion.getId() - 1);
-     * }
-     * 
-     * // Metodo que guarda un inversionistaa en un participacion
-     * public boolean saveInversionistaaParticipacion(Inversionistaa inversionistaa,
-     * Integer
-     * participacionId) throws Exception {
-     * Participacion participacionExistente =
-     * getParticipacionByIndex(participacionId);
-     * if (participacionExistente == null) {
-     * throw new Exception("Participacion con ID " + participacionId +
-     * " no existe.");
-     * }
-     * 
-     * this.participacion = participacionExistente;
-     * InversionistaaServices is = new InversionistaaServices();
-     * inversionistaa.setParticipacionId(participacionId);
-     * actualizarInversionParticipacion(inversionistaa.getMontoInvertido());
-     * 
-     * is.setInversionistaa(inversionistaa);
-     * is.save();
-     * 
-     * return true;
-     * }
-     * 
-     * // Metodo que actualiza un inversionistaa en un participacion
-     * private LinkedList<Inversionistaa> getAllInversionistaas() throws Exception {
-     * if (listInversionistaas == null) {
-     * InversionistaaServices is = new InversionistaaServices();
-     * listInversionistaas = is.getAllInversionistaas();
-     * }
-     * return listInversionistaas;
-     * }
-     * 
-     * // Metodo que obtiene los inversionistaas de un participacion
-     * public LinkedList getInversionistaasByParticipacionId(Integer
-     * participacionId)
-     * throws
-     * Exception {
-     * Inversionistaa[] allInversionistaas = getAllInversionistaas().toArray();
-     * 
-     * LinkedList inversionistaasAsociados = new LinkedList<>();
-     * for (Inversionistaa inversionistaa : allInversionistaas) {
-     * if (inversionistaa.getParticipacionId() == participacionId) {
-     * inversionistaasAsociados.add(inversionistaa);
-     * }
-     * }
-     * return inversionistaasAsociados;
-     * }
-     */
-    public Double getPorcentaje() throws Exception {
-        ProyectoServices ps = new ProyectoServices();
-        Double monto = this.participacion.getMontoInvertido();
-        Double porcentaje = (monto * 100) / ps.getProyectoById(this.participacion.getIdProyecto()).getInversion();
-        return Math.round(porcentaje * 100.0) / 100.0;
     }
 
     public Boolean update() throws Exception {
@@ -161,44 +94,7 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         }
     }
 
-    public LinkedList<Participacion> obtenerParticipacionesProyecto(Integer id) {
-        if (id == null) {
-            return new LinkedList<>();
-        }
-
-        LinkedList<Participacion> lista = listAll();
-        LinkedList<Participacion> listaFiltrada = new LinkedList<>();
-        if (!lista.isEmpty()) {
-            Participacion[] partList = lista.toArray();
-            for (Participacion p : partList) {
-                if (p.getIdProyecto().equals(id)) {
-                    listaFiltrada.add(p);
-                }
-            }
-        }
-        return listaFiltrada;
-    }
-
-    public LinkedList<Participacion> obtenerParticipacionesInverionista(Integer id) {
-        if (id == null) {
-            return new LinkedList<>();
-        }
-
-        LinkedList<Participacion> lista = listAll();
-        LinkedList<Participacion> listaFiltrada = new LinkedList<>();
-        if (!lista.isEmpty()) {
-            Participacion[] partList = lista.toArray();
-            for (Participacion p : partList) {
-                if (p.getIdInversionista().equals(id)) {
-                    listaFiltrada.add(p);
-                }
-            }
-        }
-        return listaFiltrada;
-    }
-
     public LinkedList<Participacion> buscar(String attribute, Object value) throws Exception {
-
         LinkedList<Participacion> lista = listAll();
         LinkedList<Participacion> participacions = new LinkedList<>();
 
@@ -253,25 +149,105 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         LinkedList<String> attributes = new LinkedList<>();
         for (Method m : Participacion.class.getDeclaredMethods()) {
             if (m.getName().startsWith("get")) {
-                attributes.add(m.getName().substring(3).toLowerCase());
+                String attribute = m.getName().substring(3);
+                if (!attribute.equalsIgnoreCase("id")) {
+                    attributes.add(attribute.substring(0, 1).toLowerCase() + attribute.substring(1));
+                }
             }
         }
         return attributes.toArray();
+    }
+
+    public void actualizrInversionProyecto(Integer idProyecto, Double montoInvertido) throws Exception {
+        Double resultado = montoInvertido;
+        ProyectoServices ps = new ProyectoServices();
+        LinkedList<Participacion> lista = obtenerParticipacionesProyecto(idProyecto);
+        if (!lista.isEmpty()) {
+            Participacion[] participacions = lista.toArray();
+            for (Participacion p : participacions) {
+                resultado += p.getMontoInvertido();
+            }
+        }
+        ps.setProyecto(ps.getProyectoById(idProyecto));
+        ps.getProyecto().setInversion(resultado);
+
+        ps.update();
+    }
+
+    public LinkedList<Participacion> obtenerParticipacionesProyecto(Integer id) {
+        if (id == null) {
+            return new LinkedList<>();
+        }
+
+        LinkedList<Participacion> lista = listAll();
+        LinkedList<Participacion> listaFiltrada = new LinkedList<>();
+        if (!lista.isEmpty()) {
+            Participacion[] partList = lista.toArray();
+            for (Participacion p : partList) {
+                if (p.getIdProyecto().equals(id)) {
+                    listaFiltrada.add(p);
+                }
+            }
+        }
+        return listaFiltrada;
+    }
+
+    public LinkedList<Participacion> obtenerParticipacionesInverionista(Integer id) {
+        if (id == null) {
+            return new LinkedList<>();
+        }
+
+        LinkedList<Participacion> lista = listAll();
+        LinkedList<Participacion> listaFiltrada = new LinkedList<>();
+        if (!lista.isEmpty()) {
+            Participacion[] partList = lista.toArray();
+            for (Participacion p : partList) {
+                if (p.getIdInversionista().equals(id)) {
+                    listaFiltrada.add(p);
+                }
+            }
+        }
+        return listaFiltrada;
     }
 
     public LinkedList<Participacion> orderList(String attribute, Integer order) throws Exception {
         LinkedList<Participacion> lista = listAll();
 
         if (!lista.isEmpty()) {
-            lista.order(attribute, order);
+            lista.mergeSort(attribute, order);
         }
         return lista;
     }
 
     private Object obtenerAttributeValue(Object object, String attribute) throws Exception {
-        Method method = object.getClass()
-                .getMethod("get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1));
-        return method.invoke(object);
+        String attr = "get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+
+        Method[] methods = object.getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.getName().equalsIgnoreCase(attr) && method.getParameterCount() == 0) {
+                return method.invoke(object);
+            }
+        }
+
+        throw new IllegalArgumentException(
+                "No se encontró el atributo '" + attribute + "' en la clase " + object.getClass().getName());
+    }
+
+    public LinkedList<Participacion> selectOrder(String attribute, Integer order, String method) throws Exception {
+        LinkedList<Participacion> lista = listAll();
+        if (!lista.isEmpty()) {
+            switch (method) {
+                case "merge":
+                    return lista.mergeSort(attribute, order);
+                case "quick":
+                    return lista.quickSort(attribute, order);
+                case "shell":
+                    return lista.shellSort(attribute, order);
+                default:
+                    throw new Exception("Metodo de ordenamiento no encontrado.");
+            }
+        }
+        return lista;
     }
 
     public String toJson() throws Exception {
@@ -308,10 +284,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
 
     public Estado[] getEstado() {
         return Estado.values();
-    }
-
-    public Participacion getParticipacionB(Integer Index) throws Exception {
-        return get(Index);
     }
 
     public String getParticipacionJson(Integer Index) throws Exception {

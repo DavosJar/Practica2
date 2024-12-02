@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
     <div class="container-fluid flex-grow-1">
@@ -18,7 +20,7 @@
             <aside class="col-md-2 bg-dark text-white vh-100 position-fixed p-3">
                 <h5 class="text-center my-4">Gestión de Energía</h5>
                 <nav class="nav flex-column">
-                    <a class="nav-link text-white-50 my-2 py-2 btn btn-dark" href="{{ url_for('router.home') }}">
+                    <a class="nav-link text-white-50 my-2 py-2 btn btn-dark" href="{{ url_for('proyecto.home') }}">
                         <i class="fas fa-project-diagram"></i> Proyectos
                     </a>
                     <a class="nav-link text-white-50 my-2 py-2 btn btn-dark" href="{{ url_for('router.crud_event') }}">
@@ -66,4 +68,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
+
 </html>

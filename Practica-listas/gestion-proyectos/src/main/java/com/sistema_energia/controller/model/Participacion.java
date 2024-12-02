@@ -5,7 +5,6 @@ public class Participacion {
     private Integer idProyecto;
     private Integer idInversionist;
     private Double montoInvertido;
-    private Double porcentajePaticipacio;
     private String fechaRegistro;
 
     public Participacion() {
@@ -41,14 +40,6 @@ public class Participacion {
 
     public void setMontoInvertido(Double montoInvertido) {
         this.montoInvertido = montoInvertido;
-    }
-
-    public Double getPorcentajePaticipacio() {
-        return porcentajePaticipacio;
-    }
-
-    public void setPorcentajePaticipacio(Double porcentajePaticipacio) {
-        this.porcentajePaticipacio = porcentajePaticipacio;
     }
 
     public String getFechaRegistro() {

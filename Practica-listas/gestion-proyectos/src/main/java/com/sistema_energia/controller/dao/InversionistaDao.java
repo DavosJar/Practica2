@@ -15,6 +15,8 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     private Inversionista inversionista;
     private LinkedList<Inversionista> listAll;
 
+    private Gson g = new Gson();
+
     public InversionistaDao() {
         super(Inversionista.class);
     }
@@ -145,7 +147,10 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         LinkedList<String> attributes = new LinkedList<>();
         for (Method m : Inversionista.class.getDeclaredMethods()) {
             if (m.getName().startsWith("get")) {
-                attributes.add(m.getName().substring(3).toLowerCase());
+                String attribute = m.getName().substring(3);
+                if (!attribute.equalsIgnoreCase("id")) {
+                    attributes.add(attribute.substring(0, 1).toLowerCase() + attribute.substring(1));
+                }
             }
         }
         return attributes.toArray();
@@ -155,7 +160,7 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         LinkedList<Inversionista> lista = listAll();
 
         if (!lista.isEmpty()) {
-            lista.order(attribute, order);
+            lista.mergeSort(attribute, order);
         }
         return lista;
     }
@@ -166,8 +171,24 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         return method.invoke(object);
     }
 
+    public LinkedList<Inversionista> selectOrder(String attribute, Integer order, String method) throws Exception {
+        LinkedList<Inversionista> lista = listAll();
+        if (!lista.isEmpty()) {
+            switch (method) {
+                case "merge":
+                    return lista.mergeSort(attribute, order);
+                case "quick":
+                    return lista.quickSort(attribute, order);
+                case "shell":
+                    return lista.shellSort(attribute, order);
+                default:
+                    throw new Exception("Metodo de ordenamiento no encontrado.");
+            }
+        }
+        return lista;
+    }
+
     public String toJson() throws Exception {
-        Gson g = new Gson();
         return g.toJson(this.inversionista);
     }
 
@@ -176,12 +197,19 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     }
 
     public String getInversionistaJasonByIndex(Integer index) throws Exception {
-        Gson g = new Gson();
         return g.toJson(get(index));
+    }
+
+    public Provincia getProvincia(String provincia) {
+        return Provincia.valueOf(provincia);
     }
 
     public Provincia[] getProvincia() {
         return Provincia.values();
+    }
+
+    public String getInversionistaJson(Integer Index) throws Exception {
+        return g.toJson(get(Index));
     }
 
     public Sector getSector(String sector) {

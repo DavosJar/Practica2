@@ -6,6 +6,9 @@
     <div class="card shadow-sm p-4">
         <form method="POST" action="{{ url_for('proyecto.update_proyecto', id=proyecto.get('id')) if is_edit else url_for('proyecto.post_proyecto_form') }}">
             <div class="row">
+                {% if is_edit %}
+                <input type="hidden" name="id" value="{{ proyecto.id }}">
+                {% endif %}
                 <div class="form-group col-md-6">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" class="form-control" value="{{ proyecto.nombre if is_edit else '' }}" required>

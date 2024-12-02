@@ -1,16 +1,26 @@
 package com.sistema_energia.controller.model;
 
 public enum TipoEnergia {
-    SOLAR,
-    EOLICA,
-    HIDRAULICA,
-    GEOTERMICA,
-    BIOMASA,
-    BIOCOMBUSTIBLE,
-    NUCLEAR,
-    GAS,
-    PETROLEO,
-    CARBON,
-    HIDROGENO,
-    OTRAS
+    SOLAR("Solar"),
+    EOLICA("Eólica"),
+    HIDRAULICA("Hidráulica"),
+    GEOTERMICA("Geotérmica"),
+    BIOMASA("Biomasa"),
+    BIOCOMBUSTIBLES("Biocombustibles"),
+    NUCLEAR("Nuclear"),
+    GAS("Gas"),
+    PETROLEO("Petróleo"),
+    CARBON("Carbón"),
+    HIDROGENO("Hidrógeno"),
+    OTRAS("Otras");
+
+    private final String nombre;
+
+    TipoEnergia(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
 }

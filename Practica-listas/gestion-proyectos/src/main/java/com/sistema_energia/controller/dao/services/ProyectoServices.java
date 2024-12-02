@@ -57,13 +57,17 @@ public class ProyectoServices {
 
     }
 
-    // Busquedas por atributos
+    // Busquedas po
     public LinkedList<Proyecto> getProyectosBy(String atributo, Object valor) throws Exception {
         return obj.buscar(atributo, valor);
     }
 
     public LinkedList<Proyecto> orderListBy(String atributo, Integer orden) throws Exception {
         return obj.orderList(atributo, orden);
+    }
+
+    public LinkedList<Proyecto> selectOrder(String atributo, Integer orden, String method) throws Exception {
+        return obj.selectOrder(atributo, orden, method);
     }
 
     public Proyecto obtenerProyectoPor(String atributo, Object valor) throws Exception {
@@ -102,7 +106,7 @@ public class ProyectoServices {
         return obj.getProyectoAttributeLists();
     }
 
-    public void actualizarInversionProyecto(Integer idProyecto, Double monto) throws Exception {
-        obj.actualizarMontoInversion(idProyecto, monto);
+    public void getInversionTotal(Integer idProyecto) throws Exception {
+        obj.calcularInversion(idProyecto);
     }
 }
