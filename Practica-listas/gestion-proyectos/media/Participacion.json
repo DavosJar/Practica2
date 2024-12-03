@@ -1,1 +1,23 @@
-[{"id":59,"idProyecto":26,"idInversionist":3,"montoInvertido":400.0,"fechaRegistro":"2024-11-27"},{"id":60,"idProyecto":26,"idInversionist":3,"montoInvertido":400.0,"fechaRegistro":"2024-11-27"},{"id":61,"idProyecto":26,"idInversionist":3,"montoInvertido":300.0,"fechaRegistro":"2024-11-27"}]
+[
+    {
+        "id": 59,
+        "idProyecto": 26,
+        "idInversionist": 4,
+        "montoInvertido": 400.0,
+        "fechaRegistro": "2024-11-27"
+    },
+    {
+        "id": 60,
+        "idProyecto": 26,
+        "idInversionist": 4,
+        "montoInvertido": 400.0,
+        "fechaRegistro": "2024-11-27"
+    },
+    {
+        "id": 61,
+        "idProyecto": 26,
+        "idInversionist": 4,
+        "montoInvertido": 300.0,
+        "fechaRegistro": "2024-11-27"
+    }
+]

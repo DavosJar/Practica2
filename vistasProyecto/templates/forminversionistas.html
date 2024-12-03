@@ -4,80 +4,40 @@
 <div class="container py-5">
     <h2 class="mb-4">{{ 'Editar Proyecto' if is_edit else 'Agregar Nuevo Proyecto' }}</h2>
     <div class="card shadow-sm p-4">
-        <form method="POST" action="{{ url_for('inversionista.update_inversionista', id=inversionista.get('id')) if is_edit else url_for('inversionista.post_inversionista_form') }}">
+        <!-- Acción del formulario depende si es edición o creación -->
+        <form method="POST" action="{{ url_for('inversionista.update_inversionista', id=inversionista.id) if is_edit else url_for('inversionista.post_inversionista_form') }}">
             <div class="row">
                 {% if is_edit %}
+                <!-- Si es edición, pasamos el id -->
                 <input type="hidden" name="id" value="{{ inversionista.id }}">
                 {% endif %}
                 <div class="form-group col-md-6">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" class="form-control" value="{{ inversionista.nombre if is_edit else '' }}" required>
                 </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="tipo">Tipo de Energía:</label>
-                    <select id="tipo" name="tipo" class="form-control">
-                        {% if tipos %}
-                            {% for key, value in tipos %}
-                                <option value="{{ key }}" {% if is_edit and inversionista.tipoEnergia == key %}selected{% endif %}>{{ value }}</option>
-                            {% endfor %}
-                        {% else %}
-                            <option value="" disabled>No disponible</option>
-                        {% endif %}
-                    </select>
+                    <label for="registro">Registro:</label>
+                    <input type="text" id="registro" name="registro" class="form-control" value="{{ inversionista.registro if is_edit else '' }}" required>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="fecha_inicio">Fecha de inicio:</label>
-                    <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" value="{{ inversionista.fechaInicio if is_edit else '' }}" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="fecha_fin">Fecha de fin (opcional):</label>
-                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" value="{{ inversionista.fechaFin if is_edit else '' }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="presupuesto">Costo Estimado Inicial:</label>
-                    <input type="number" id="presupuesto" name="presupuesto" class="form-control" value="{{ inversionista.costoEstimadoInicial if is_edit else '' }}" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inversion">Inversión:</label>
-                    <input type="number" id="inversion" name="inversion" class="form-control" value="{{ inversionista.inversion if is_edit else '' }}" step="0.01">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="capacidad">Capacidad:</label>
-                    <input type="number" id="capacidad" name="capacidad" class="form-control" value="{{ inversionista.capacidad if is_edit else '' }}">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="tiempo_de_vida">Tiempo de Vida (en años):</label>
-                    <input type="number" id="tiempo_de_vida" name="tiempo_de_vida" class="form-control" value="{{ inversionista.tiempoDeVida if is_edit else '' }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="estado">Estado:</label>
-                    <select id="estado" name="estado" class="form-control">
-                        {% for key, value in estado %}
-                            <option value="{{ key }}" {% if is_edit and inversionista.estado == key %}selected{% endif %}>{{ value }}</option>
+                    <label for="sector">Sector:</label>
+                    <select id="sector" name="sector" class="form-control" required>
+                        {% for key, value in sector %}
+                            <option value="{{ key }}" {% if is_edit and inversionista.sector == key %}selected{% endif %}>{{ value }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="provincia">Ubicación:</label>
-                    <select id="provincia" name="provincia" class="form-control">
+                    <select id="provincia" name="provincia" class="form-control" required>
                         {% for key, value in provincia %}
                             <option value="{{ key }}" {% if is_edit and inversionista.ubicacion == key %}selected{% endif %}>{{ value }}</option>
                         {% endfor %}
                     </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion" class="form-control" required>{{ inversionista.descripcion if is_edit else '' }}</textarea>
                 </div>
             </div>
             <div class="text-center mt-4">

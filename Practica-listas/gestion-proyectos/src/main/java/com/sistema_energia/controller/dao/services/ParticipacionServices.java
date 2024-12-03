@@ -71,4 +71,13 @@ public class ParticipacionServices {
     public void actualizarInversiones(Integer idProyecto, Double montoInvertido) throws Exception {
         obj.actualizrInversionProyecto(idProyecto, montoInvertido);
     }
+
+    public LinkedList<Participacion> getParticipacionesByProyecto(Integer idProyecto) throws Exception {
+        return obj.obtenerParticipacionesProyecto(idProyecto);
+    }
+
+    public LinkedList<Participacion> getParticipacionesByIversionista(Integer idInversionista) throws Exception {
+        return obj.obtenerParticipacionesInverionista(idInversionista);
+    }
+
 }

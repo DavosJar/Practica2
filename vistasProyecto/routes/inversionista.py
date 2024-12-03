@@ -7,21 +7,18 @@ URL = 'http://localhost:8090/api/inversionista'
 
 @inversionista.route('/')
 def home():
-    criterios = charge_options(f'{URL}/list/criteria')
-    
+    criterios = charge_options(f'{URL}/list/criteria')   
     try:
         r = requests.get(f'{URL}/list')
-        r.raise_for_status()  
-        data = r.json()
-        
-        return render_template('lista_inversionistas.html', lista=data["data"], opciones=criterios)
+        r.raise_for_status()
+        data = r.json()  
+        lista = data.get("data", []) 
+        print("Lista enviada al template:", lista)  
+        return render_template('inversionistas.html', lista=lista, opciones=criterios)
     
     except requests.exceptions.RequestException as e:
         print(f"Error al obtener la lista de inversionistas: {e}")
-        return render_template('lista_inversionistas.html', lista=[], error_message="Error inesperado al obtener los datos de la API.")
-
-from flask import render_template, abort
-import requests
+        return render_template('inversionistas.html', lista=[], error_message="Error inesperado al obtener los datos de la API.")
 
 @inversionista.route('/<id>')
 def inversionista_id(id):
@@ -58,50 +55,26 @@ def delete_inversionista(id):
 
 @inversionista.route('/create', methods=['GET'])
 def save_inversionista():
-    tipo = charge_options(f'{URL}/tipos')
-    estado = charge_options(f'{URL}/estado')
+    sector = charge_options(f'{URL}/sector')
     provincia = charge_options(f'{URL}/provincia')
 
     inversionista = {
         "nombre": "",
-        "descripcion": "",
-        "fechaInicio": "",
-        "fechaFin": "",
-        "costoEstimadoInicial": "",
-        "tipoEnergia": "",
-        "estado": "",
-        "ubicacion": "",
-        "capacidad": "",
-        "tiempoDeVida": ""
+        "registro": "",
+        "sector": "",
+        "ubicacion": ""
     }
 
-    return render_template('forminversionistas.html', inversionista=inversionista, tipos=tipo, estado=estado, provincia=provincia, is_edit=False)
+    return render_template('forminversionistas.html', inversionista=inversionista, sector=sector, provincia=provincia, is_edit=False)
 
 @inversionista.route('/create', methods=['POST'])
 def post_inversionista_form():
-    fecha_fin = request.form.get('fecha_fin', '').strip()
     try:
-        fecha_inicio = datetime.strptime(request.form.get('fecha_inicio'), "%Y-%m-%d").strftime("%Y-%m-%d")
-        if fecha_fin:
-            try:
-                fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d").strftime("%Y-%m-%d")
-            except ValueError:
-                fecha_fin = None
-        else:
-            fecha_fin = None
-
         data = {
             "nombre": request.form.get('nombre'),
-            "descripcion": request.form.get('descripcion'),
-            "fechaInicio": fecha_inicio,
-            "fechaFin": fecha_fin,
-            "costoEstimadoInicial": float(request.form.get('presupuesto', 0)),
-            "tipoEnergia": request.form.get('tipo'),
-            "estado": request.form.get('estado'),
-            "ubicacion": request.form.get('provincia'),
-            "capacidad": int(request.form.get('capacidad', 0)),
-            "tiempoDeVida": int(request.form.get('tiempo_de_vida', 0)),
-            "inversion": float(request.form.get('inversion', 0.0)),
+            "registro": request.form.get('registro'),
+            "sector": request.form.get('sector'),
+            "ubicacion": request.form.get('provincia')
         }
 
         response = requests.post(f'{URL}/save', json=data)
@@ -134,12 +107,11 @@ def update(id):
         
         data = response["data"]
         
-        tipo = charge_options(f'{URL}/tipos')
-        estado = charge_options(f'{URL}/estado')
         provincia = charge_options(f'{URL}/provincia')
+        sector = charge_options(f'{URL}/sector')
         
         return render_template(
-            'forminversionistas.html', inversionista=data, tipos=tipo, estado=estado, provincia=provincia, is_edit=True
+            'forminversionistas.html', inversionista=data, sector=sector, provincia=provincia, is_edit=True
         )
     except requests.RequestException as e:
         print(f"Error al conectar con la API: {e}")
@@ -147,29 +119,13 @@ def update(id):
 
 @inversionista.route('/<id>/edit', methods=['POST'])
 def update_inversionista(id):
-    fecha_fin = request.form.get('fecha_fin', '').strip()
     try:
-        fecha_inicio = datetime.strptime(request.form.get('fecha_inicio'), "%Y-%m-%d").strftime("%Y-%m-%d")
-        if fecha_fin:
-            try:
-                fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d").strftime("%Y-%m-%d")
-            except ValueError:
-                fecha_fin = None
-        else:
-            fecha_fin = None
         data = {
             "id": request.form.get('id', ''),
             "nombre": request.form.get('nombre', ''),
-            "descripcion": request.form.get('descripcion', ''),
-            "fechaInicio": fecha_inicio if fecha_inicio else '',
-            "fechaFin": fecha_fin if fecha_fin else '',
-            "costoEstimadoInicial": float(request.form.get('presupuesto', 0)),
-            "tipoEnergia": request.form.get('tipo', ''),
-            "estado": request.form.get('estado', ''),
-            "ubicacion": request.form.get('provincia', ''),
-            "capacidad": int(request.form.get('capacidad', 0)),
-            "tiempoDeVida": int(request.form.get('tiempo_de_vida', 0)),
-            "inversion": float(request.form.get('inversion', 0.0)),
+            "registro": request.form.get('registro', ''),
+            "sector": request.form.get('sector', ''),
+            "ubicacion": request.form.get('provincia', '')
         }
         response = requests.post(f'{URL}/update', json=data)
         response.raise_for_status()
@@ -191,11 +147,11 @@ def order_list(attribute, type, metodo):
         r = requests.get(f'{URL}/list/order/{attribute}/{type}/{metodo}')
         r.raise_for_status()
         data = r.json()
-        return render_template('lista_inversionistas.html', lista=data["data"], opciones=criterios)
+        return render_template('inversionistas.html', lista=data["data"], opciones=criterios)
     
     except requests.RequestException as e:
         print(f"Error al obtener la lista de inversionistas: {e}")
-        return render_template('lista_inversionistas.html', lista=[])
+        return render_template('inversionistas.html', lista=[])
 
 @inversionista.route('/list/search/<attribute>/<value>', methods=['GET'])
 def search_criteria(attribute, value):
@@ -207,18 +163,18 @@ def search_criteria(attribute, value):
         
         if response.get("status") == "ERROR":
             print(f"Error desde la API: {response.get('msg', 'Error desconocido')}")
-            return render_template('lista_inversionistas.html', lista=[], opciones=criterios, error=response.get('msg'))
+            return render_template('inversionistas.html', lista=[], opciones=criterios, error=response.get('msg'))
         
         data = response.get("data", [])
         
         if not isinstance(data, list):
             data = [data]
         
-        return render_template('lista_inversionistas.html', lista=data, opciones=criterios)
+        return render_template('inversionistas.html', lista=data, opciones=criterios)
     
     except requests.RequestException as e:
         print(f"Error al conectar con la API: {e}")
-        return render_template('lista_inversionistas.html', lista=[], opciones=criterios, error="Error")
+        return render_template('inversionistas.html', lista=[], opciones=criterios, error="Error")
     
 def charge_options(endpoint):
     try:

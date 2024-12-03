@@ -5,8 +5,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.sistema_energia.controller.dao.services.ProyectoServices;
-import com.sistema_energia.controller.model.Proyecto;
 import com.sistema_energia.controller.tda.list.LinkedList;
 
 @Path("myresource")
@@ -62,13 +60,10 @@ public class MyResource {
          * System.out.println("Tiempo de ejecucion BinarySearch con mergeSort : " +
          * tiempoTotal + " ns en posicion: " + positio);
          */
-        ProyectoServices ps = new ProyectoServices();
-        LinkedList<Proyecto> lista = ps.listAll();
+        LinkedList<Integer> lista = generarListaRandom(20);
         System.out.println(lista);
-        System.out.println("Lista de proyectos ordenada por fecha");
-        LinkedList<Proyecto> lista3 = lista.cloneList();
-        lista3.mergeSort("fechafin", 1);
-        System.out.println(lista3);
+        LinkedList<Integer> lista1 = lista.linearBinarySearch(3);
+        System.out.println(lista1);
 
         return "Got it!";
 
@@ -77,7 +72,7 @@ public class MyResource {
     LinkedList<Integer> generarListaRandom(Integer cantidad) {
         LinkedList<Integer> lista = new LinkedList<>();
         for (int i = 0; i < cantidad; i++) {
-            lista.add((int) (Math.random() * 60000));
+            lista.add((int) (Math.random() * 10));
         }
         return lista;
     }

@@ -15,8 +15,6 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     private Inversionista inversionista;
     private LinkedList<Inversionista> listAll;
 
-    private Gson g = new Gson();
-
     public InversionistaDao() {
         super(Inversionista.class);
     }
@@ -92,20 +90,54 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         }
     }
 
-    public LinkedList<Inversionista> buscar(String attribute, Object value) throws Exception {
-        LinkedList<Inversionista> lista = listAll();
+    private LinkedList<Inversionista> linearBinarySearch(String attribute, Object value) throws Exception {
+        LinkedList<Inversionista> lista = this.listAll().quickSort(attribute, 1);
         LinkedList<Inversionista> inversionistas = new LinkedList<>();
-
         if (!lista.isEmpty()) {
-            Inversionista[] inversionistasArray = lista.toArray();
-            for (Inversionista p : inversionistasArray) {
-                if (obtenerAttributeValue(p, attribute).toString().toLowerCase()
-                        .equals(value.toString().toLowerCase())) {
-                    inversionistas.add(p);
+            Inversionista[] aux = lista.toArray();
+            Integer low = 0;
+            Integer high = aux.length - 1;
+            Integer mid;
+            Integer index = -1;
+            String searchValue = value.toString().toLowerCase();
+            while (low <= high) {
+                mid = (low + high) / 2;
+
+                String midValue = obtenerAttributeValue(aux[mid], attribute).toString().toLowerCase();
+                System.out.println("Comparando: " + midValue + " con " + searchValue);
+
+                if (midValue.startsWith(searchValue)) {
+                    if (mid == 0 || !obtenerAttributeValue(aux[mid - 1], attribute).toString().toLowerCase()
+                            .startsWith(searchValue)) {
+                        index = mid;
+                        break;
+                    } else {
+                        high = mid - 1;
+                    }
+                } else if (midValue.compareToIgnoreCase(searchValue) < 0) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
                 }
+            }
+
+            if (index.equals(-1)) {
+                return inversionistas;
+            }
+
+            Integer i = index;
+            while (i < aux.length
+                    && obtenerAttributeValue(aux[i], attribute).toString().toLowerCase().startsWith(searchValue)) {
+                inversionistas.add(aux[i]);
+                System.out.println("Agregando: " + aux[i].getNombre());
+                i++;
             }
         }
         return inversionistas;
+    }
+
+    public LinkedList<Inversionista> buscar(String attribute, Object value) throws Exception {
+        return linearBinarySearch(attribute, value);
     }
 
     public Inversionista buscarPor(String attribute, Object value) throws Exception {
@@ -166,9 +198,17 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     }
 
     private Object obtenerAttributeValue(Object object, String attribute) throws Exception {
-        Method method = object.getClass()
-                .getMethod("get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1));
-        return method.invoke(object);
+        String normalizedAttribute = "get" + attribute.substring(0, 1).toUpperCase()
+                + attribute.substring(1).toLowerCase();
+        Method[] methods = object.getClass().getMethods();
+
+        for (Method method : methods) {
+            if (method.getName().equalsIgnoreCase(normalizedAttribute) && method.getParameterCount() == 0) {
+                return method.invoke(object);
+            }
+        }
+
+        throw new NoSuchMethodException("No se encontor el atributo: " + attribute);
     }
 
     public LinkedList<Inversionista> selectOrder(String attribute, Integer order, String method) throws Exception {
@@ -189,6 +229,7 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     }
 
     public String toJson() throws Exception {
+        Gson g = new Gson();
         return g.toJson(this.inversionista);
     }
 
@@ -197,6 +238,7 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     }
 
     public String getInversionistaJasonByIndex(Integer index) throws Exception {
+        Gson g = new Gson();
         return g.toJson(get(index));
     }
 
@@ -209,6 +251,7 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
     }
 
     public String getInversionistaJson(Integer Index) throws Exception {
+        Gson g = new Gson();
         return g.toJson(get(Index));
     }
 

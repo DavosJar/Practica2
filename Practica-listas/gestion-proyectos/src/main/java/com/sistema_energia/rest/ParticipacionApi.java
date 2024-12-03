@@ -263,4 +263,54 @@ public class ParticipacionApi {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/proyecto/{id}/")
+    public Response getProyectoPart(@PathParam("id") Integer id) throws Exception {
+        HashMap<String, Object> res = new HashMap<>();
+        ParticipacionServices ps = new ParticipacionServices();
+        EventoCrudServices ev = new EventoCrudServices();
+        try {
+            res.put("status", "OK");
+            LinkedList lista = ps.getParticipacionesByProyecto(id);
+            res.put("msg", "Consulta exitosa.");
+            res.put("data", lista.toArray());
+            if (lista.isEmpty()) {
+                res.put("data", new Object[] {});
+            }
+            ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de participacions.");
+            return Response.ok(res).build();
+        } catch (Exception e) {
+            res.put("status", "ERROR");
+            res.put("msg", "Error al obtener la lista de participacions: " + e.getMessage());
+            ev.registrarEvento(TipoCrud.LIST, "Error inesperado: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/inversionista/{id}/")
+    public Response getInversionistaPart(@PathParam("id") Integer id) throws Exception {
+        HashMap<String, Object> res = new HashMap<>();
+        ParticipacionServices ps = new ParticipacionServices();
+        EventoCrudServices ev = new EventoCrudServices();
+        try {
+            res.put("status", "OK");
+            LinkedList lista = ps.getParticipacionesByIversionista(id);
+            res.put("msg", "Consulta exitosa.");
+            res.put("data", lista.toArray());
+            if (lista.isEmpty()) {
+                res.put("data", new Object[] {});
+            }
+            ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de participacions.");
+            return Response.ok(res).build();
+        } catch (Exception e) {
+            res.put("status", "ERROR");
+            res.put("msg", "Error al obtener la lista de participacions: " + e.getMessage());
+            ev.registrarEvento(TipoCrud.LIST, "Error inesperado: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
 }

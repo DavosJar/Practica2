@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Detalles del Proyecto{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex align-items-center mb-4">
+        <a href="{{ url_for('inversionista.home') }}" class="btn btn-outline-primary rounded-pill">
+            <i class="fas fa-arrow-left mr-2"></i> Volver a la lista de inversionistas
+        </a>
+    </div>
+    <h2 class="text-secondary mb-4 font-weight-bold">Detalles del Proyecto</h2>
+    
+    <h3 class="text-primary mb-4 font-weight-bold">{{ inversionista.nombre }}</h3>
+
+    
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-lg mb-4 border-light rounded-lg">
+                <div class="card-body">
+                    <p class="card-text"><strong>Registro:</strong> <span class="text-muted">{{ inversionista.registro }}</span></p>
+                    <p class="card-text"><strong>Sector</strong> <span class="text-muted">{{ inversionista.sector }}</span></p>
+                    <p class="card-text"><strong>Ubicacion:</strong> <span class="text-muted">{{ inversionista.ubicacion }}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!--<div class="mt-4">
+        <h3>Inversionistas</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered w-auto mx-auto">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Registro</th>
+                        <th class="text-center">Monto Invertido</th>
+                        <th class="text-center">Sector</th>
+                        <th class="text-center">Ubicación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inversionista in inversionistas %}
+                    <tr class="text-center">
+                        <td>{{ inversionista.id }}</td>
+                        <td>{{ inversionista.nombre }}</td>
+                        <td>{{ inversionista.registro }}</td>
+                        <td>{{ inversionista.montoInvertido }}</td>
+                        <td>{{ inversionista.sector }}</td>
+                        <td>{{ inversionista.ubicacion }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">No hay inversionistas disponibles</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+-->
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Participacions{% endblock %}
+
+{% block content %}
+<script>
+    $(document).ready(function () {
+        function url_change() {
+            var url = "http://192.168.101.107:5000/participacion/list/search";
+            var search = $("#search").val();
+            var criterio = $("#criterio").val();
+            var new_url = url + "/" + criterio + "/" + search;
+            $("#btn").attr("href", new_url);
+        }
+    
+        $("#search").keyup(function () {
+            url_change();
+        });
+        $("#criterio").change(function () {
+            url_change();
+        });
+    
+        function updateArrowUrls() {
+            var method = $("#order_c").val(); 
+        
+            $("a.text-primary").each(function () {
+                var baseUrl = $(this).data("original-href"); 
+                $(this).attr("href", baseUrl + method);
+            });
+        }
+        
+        $("a.text-primary").each(function () {
+            if (!$(this).data("original-href")) {
+                $(this).data("original-href", $(this).attr("href")); 
+            }
+        });
+        
+        $("#order_c").change(function () {
+            updateArrowUrls();
+        });
+        
+        updateArrowUrls();
+        });
+</script>
+
+<div class="content-container py-4 px-3">
+    <div class="container-fluid bg-white shadow-sm rounded py-4">
+        <h2 class="text-primary mb-4">Participacions</h2>
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ url_for('participacion.save_participacion') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus-circle"></i> Agregar Participacion
+            </a>
+        </div>
+    </div>
+
+    <div class="content-section py-4 px-3">
+        <div class="container-fluid bg-white shadow-sm rounded py-4">
+            <div class="d-flex justify-content-between mb-4">               
+                <div class="d-flex align-items-center gap-2">
+                    <label for="order_c" class="mr-2">Elige un metodo</label>
+                    <select id="order_c" class="form-select w-auto">
+                        <option value="shell">Shell</option>
+                        <option value="merge">Merge</option>
+                        <option value="quick">Quick</option>
+                    </select>
+                </div>
+            </div>
+
+            <h3 class="text-secondary mb-4">Lista de Participacions</h3>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
+                                <div>
+                                    <i class="fas fa-project-diagram"></i> Nombre Inversionista
+                                </div>
+                            </th>
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
+                                <div>
+                                    <i class="fas fa-project-diagram"></i> Registro Inversionista
+                                </div>
+                            </th>
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
+                                <div>
+                                    <i class="fas fa-project-diagram"></i> Nombre Proyecto
+                                </div>
+                            </th>
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
+                                <div>
+                                    <i class="fas fa-project-diagram"></i> Inversion
+                                </div>
+                                <div>
+                                    <a href="{{ url_for('participacion.order_list', attribute='montoInvertido', type=1, metodo='') }}" class="text-primary mx-1">
+                                        <i class="fas fa-caret-up"></i>
+                                    </a>
+                                    <a href="{{ url_for('participacion.order_list', attribute='montoInvertido', type=0, metodo='') }}" class="text-primary mx-1">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                            </th>
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
+                                <div>
+                                    <i class="fas fa-project-diagram"></i> Fecha Registro
+                                </div>
+                                <div>
+                                    <a href="{{ url_for('participacion.order_list', attribute='fechaRegistro', type=1, metodo='') }}" class="text-primary mx-1">
+                                        <i class="fas fa-caret-up"></i>
+                                    </a>
+                                    <a href="{{ url_for('participacion.order_list', attribute='fechaRegistro', type=0, metodo='') }}" class="text-primary mx-1">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                            </th>
+                            <th class="text-center" style="max-width: 150px; font-size: 0.9em;">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in lista %}
+                        <tr class="text-center">
+                            <td>
+                                <a href="{{ url_for('participacion.participacion_id', id=item.id) }}" 
+                                   class="btn btn-outline-primary btn-sm w-100 text-start opacity-50 hover-opacity-100" 
+                                   style="transition: opacity 0.3s ease;">
+                                    {{ item.nombre_inversionista }}
+                                </a>
+                            </td>
+                            <td>{{ item.registro_inversionista }}</td>
+                            <td>{{ item.nombre_proyecto }}</td>
+                            <td>{{ item.monto_invertido }}</td>
+                            <td>{{ item.fecha_registro }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <!-- Botón de Editar -->
+                                    <a href="{{ url_for('participacion.update', id=item.id) }}" class="btn btn-primary text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
+                                        <i class="fas fa-edit fa-lg"></i>
+                                    </a>
+                                    
+                                    <!-- Botón de Eliminar -->
+                                    <a href="{{ url_for('participacion.delete_participacion', id=item.id) }}" class="btn btn-danger text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
+                                        <i class="fas fa-trash-alt fa-lg"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

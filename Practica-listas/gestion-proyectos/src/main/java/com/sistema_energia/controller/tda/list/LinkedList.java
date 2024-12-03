@@ -431,7 +431,7 @@ public class LinkedList<E> {
             e.printStackTrace();
         }
 
-        return null; // Retorna null si no se encontró el atributo o hubo un error
+        return null;
     }
 
     public String toString1() {
@@ -446,16 +446,9 @@ public class LinkedList<E> {
 
     private Boolean compare(Object a, Object b, Integer type) throws Exception {
         // Manejo de nulos
-        if (a == null && b == null) {
+        if (a == null || b == null) {
             return false;
         }
-        if (a == null) {
-            return type == 0 ? false : true;
-        }
-        if (b == null) {
-            return type == 0 ? true : false;
-        }
-
         switch (type) {
             case 0:
                 if (a instanceof Number && b instanceof Number) {
@@ -684,5 +677,37 @@ public class LinkedList<E> {
             }
         }
         return positio;
+    }
+
+    public LinkedList<E> linearBinarySearch(E data) {
+        E[] lista = this.mergeSort(1).toArray();
+        LinkedList<E> result = new LinkedList<>();
+        Integer low = 0, high = lista.length - 1;
+        Integer mid;
+        Integer position = -1;
+        while (low <= high) {
+            mid = low + (high - low) / 2;
+            if (lista[mid].equals(data)) {
+                if (mid.equals(0) || !lista[mid - 1].equals(data)) {
+                    position = mid;
+                    break;
+                } else {
+                    high = mid - 1;
+                }
+            } else if (lista[mid].toString().compareTo(data.toString()) < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        if (position.equals(-1)) {
+            return result;
+        }
+        Integer i = position;
+        while (i < lista.length && lista[i].equals(data)) {
+            result.add(lista[i]);
+            i++;
+        }
+        return result;
     }
 }

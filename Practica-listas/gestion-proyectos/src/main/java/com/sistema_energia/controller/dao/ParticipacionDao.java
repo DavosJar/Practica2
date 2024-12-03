@@ -6,10 +6,7 @@ import com.google.gson.Gson;
 import com.sistema_energia.controller.dao.implement.AdapterDao;
 import com.sistema_energia.controller.dao.implement.Contador;
 import com.sistema_energia.controller.dao.services.ProyectoServices;
-import com.sistema_energia.controller.model.Estado;
 import com.sistema_energia.controller.model.Participacion;
-import com.sistema_energia.controller.model.Provincia;
-import com.sistema_energia.controller.model.TipoEnergia;
 import com.sistema_energia.controller.tda.list.LinkedList;
 
 @SuppressWarnings({ "unchecked", "ConvertToTryWithResources" })
@@ -92,22 +89,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         } catch (Exception e) {
             throw new Exception("Error al eliminar el participacion: " + e.getMessage());
         }
-    }
-
-    public LinkedList<Participacion> buscar(String attribute, Object value) throws Exception {
-        LinkedList<Participacion> lista = listAll();
-        LinkedList<Participacion> participacions = new LinkedList<>();
-
-        if (!lista.isEmpty()) {
-            Participacion[] participacionsArray = lista.toArray();
-            for (Participacion p : participacionsArray) {
-                if (obtenerAttributeValue(p, attribute).toString().toLowerCase()
-                        .equals(value.toString().toLowerCase())) {
-                    participacions.add(p);
-                }
-            }
-        }
-        return participacions;
     }
 
     public Participacion buscarPor(String attribute, Object value) throws Exception {
@@ -230,7 +211,7 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         }
 
         throw new IllegalArgumentException(
-                "No se encontró el atributo '" + attribute + "' en la clase " + object.getClass().getName());
+                "No se encontro el atributo '" + attribute + "' en la clase " + object.getClass().getName());
     }
 
     public LinkedList<Participacion> selectOrder(String attribute, Integer order, String method) throws Exception {
@@ -250,6 +231,55 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         return lista;
     }
 
+    private LinkedList<Participacion> linearBinarySearch(String attribute, Object value) throws Exception {
+        LinkedList<Participacion> lista = this.listAll().quickSort(attribute, 1);
+        LinkedList<Participacion> participaciones = new LinkedList<>();
+        if (!lista.isEmpty()) {
+            Participacion[] aux = lista.toArray();
+            Integer low = 0;
+            Integer high = aux.length - 1;
+            Integer mid;
+            Integer index = -1;
+            String searchValue = value.toString().toLowerCase();
+            while (low <= high) {
+                mid = (low + high) / 2;
+
+                String midValue = obtenerAttributeValue(aux[mid], attribute).toString().toLowerCase();
+                System.out.println("Comparando: " + midValue + " con " + searchValue);
+
+                if (midValue.startsWith(searchValue)) {
+                    if (mid == 0 || !obtenerAttributeValue(aux[mid - 1], attribute).toString().toLowerCase()
+                            .startsWith(searchValue)) {
+                        index = mid;
+                        break;
+                    } else {
+                        high = mid - 1;
+                    }
+                } else if (midValue.compareToIgnoreCase(searchValue) < 0) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+
+            if (index.equals(-1)) {
+                return participaciones;
+            }
+
+            Integer i = index;
+            while (i < aux.length
+                    && obtenerAttributeValue(aux[i], attribute).toString().toLowerCase().startsWith(searchValue)) {
+                participaciones.add(aux[i]);
+                i++;
+            }
+        }
+        return participaciones;
+    }
+
+    public LinkedList<Participacion> buscar(String attribute, Object value) throws Exception {
+        return linearBinarySearch(attribute, value);
+    }
+
     public String toJson() throws Exception {
         return g.toJson(this.participacion);
     }
@@ -260,30 +290,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
 
     public String getParticipacionJasonByIndex(Integer index) throws Exception {
         return g.toJson(get(index));
-    }
-
-    public TipoEnergia getTipoEnergia(String tipo) {
-        return TipoEnergia.valueOf(tipo);
-    }
-
-    public TipoEnergia[] getTipoEnergia() {
-        return TipoEnergia.values();
-    }
-
-    public Provincia getProvincia(String provincia) {
-        return Provincia.valueOf(provincia);
-    }
-
-    public Provincia[] getProvincia() {
-        return Provincia.values();
-    }
-
-    public Estado getEstado(String estado) {
-        return Estado.valueOf(estado);
-    }
-
-    public Estado[] getEstado() {
-        return Estado.values();
     }
 
     public String getParticipacionJson(Integer Index) throws Exception {

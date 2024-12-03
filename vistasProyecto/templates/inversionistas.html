@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Lista de Proyectos{% endblock %}
+{% block title %}Lista de Invesionistas{% endblock %}
 
 {% block content %}
 <script>
     $(document).ready(function () {
         function url_change() {
-            var url = "http://192.168.101.107:5000/proyecto/list/search";
+            var url = "http://localhost:5000/inversionista/list/search";
             var search = $("#search").val();
             var criterio = $("#criterio").val();
             var new_url = url + "/" + criterio + "/" + search;
@@ -46,10 +46,10 @@
 
 <div class="content-container py-4 px-3">
     <div class="container-fluid bg-white shadow-sm rounded py-4">
-        <h2 class="text-primary mb-4">Bienvenido al Sistema de Gestión de Proyectos</h2>
+        <h2 class="text-primary mb-4">Invesionistas</h2>
         <div class="d-flex align-items-center mb-4">
-            <a href="{{ url_for('proyecto.save_proyecto') }}" class="btn btn-outline-primary">
-                <i class="fas fa-plus-circle"></i> Agregar Proyecto
+            <a href="{{ url_for('inversionista.save_inversionista') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus-circle"></i> Agregar Invesionista
             </a>
         </div>
     </div>
@@ -70,7 +70,7 @@
                     </div>
                     
                     <div class="d-flex align-items-center mr-2">
-                        <input type="text" id="search" class="form-control" placeholder="Buscar Proyecto">
+                        <input type="text" id="search" class="form-control" placeholder="Buscar Invesionista">
                     </div>
                     
                     <div class="d-flex align-items-center">
@@ -89,7 +89,8 @@
                     </select>
                 </div>
             </div>
-            <h3 class="text-secondary mb-4">Lista de Proyectos</h3>
+
+            <h3 class="text-secondary mb-4">Lista de Invesionistas</h3>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered table-striped">
                     <thead class="thead-dark">
@@ -99,127 +100,49 @@
                                     <i class="fas fa-project-diagram"></i> Nombre
                                 </div>
                                 <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='nombre', type=1, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='nombre', type=1, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-up"></i>
                                     </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='nombre', type=0, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='nombre', type=0, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
                                 <div>
-                                    <i class="fas fa-money-bill-wave"></i> Presupuesto
+                                    <i class="fas fa-file-signature"></i> Registro
                                 </div>
                                 <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='costoEstimadoInicial', type=1, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='registro', type=1, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-up"></i>
                                     </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='costoEstimadoInicial', type=0, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='registro', type=0, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
                                 <div>
-                                    <i class="fas fa-dollar-sign"></i> Inversión
+                                    <i class="fas fa-map"></i> Ubicación
                                 </div>
                                 <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='inversion', type=1, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='ubicacion', type=1, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-up"></i>
                                     </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='inversion', type=0, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='ubicacion', type=0, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
                                 <div>
-                                    <i class="fas fa-calendar-day"></i> Fecha Inicio
+                                    <i class="fas fa-industry"></i> Sector
                                 </div>
                                 <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='fechaInicio', type=1, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='sector', type=1, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-up"></i>
                                     </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='fechaInicio', type=0, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                            </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
-                                <div>
-                                    <i class="fas fa-calendar-alt"></i> Fecha Fin
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='fechaFin', type=1, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-up"></i>
-                                    </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='fechaFin', type=0, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                            </th>
-                            <th class="text-center" style="max-width: 100px; font-size: 0.9em;">
-                                <div>
-                                    <i class="fas fa-hourglass-half"></i> Tiempo de Vida
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='tiempoDeVida', type=1, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-up"></i>
-                                    </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='tiempoDeVida', type=0, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                            </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
-                                <div>
-                                    <i class="fas fa-sun"></i> Producción (MW/día)
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='capacidad', type=1, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-up"></i>
-                                    </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='capacidad', type=0, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                            </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
-                                <div>
-                                    <i class="fas fa-bolt"></i> Tipo de Energía
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='tipoEnergia', type=1, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-up"></i>
-                                    </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='tipoEnergia', type=0, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                            </th>
-                            <th class="text-center" style="max-width: 110px; font-size: 0.9em;">
-                                <div>
-                                    <i class="fas fa-map-marker-alt"></i> Ubicación
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='ubicacion', type=1, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-up"></i>
-                                    </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='ubicacion', type=0, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                            </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
-                                <div>
-                                    <i class="fas fa-clipboard-list"></i> Estado
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='estado', type=1, metodo='') }}" class="text-primary mx-1">
-                                        <i class="fas fa-caret-up"></i>
-                                    </a>
-                                    <a href="{{ url_for('proyecto.order_list', attribute='estado', type=0, metodo='') }}" class="text-primary mx-1">
+                                    <a href="{{ url_for('inversionista.order_list', attribute='sector', type=0, metodo='') }}" class="text-primary mx-1">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
                                 </div>
@@ -230,39 +153,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in lista %}
-                        <tr class="text-center">
-                            <td>
-                                <a href="{{ url_for('proyecto.proyecto_id', id=item.id) }}" 
-                                class="btn btn-outline-primary btn-sm w-100 text-start opacity-50 hover-opacity-100" 
-                                style="transition: opacity 0.3s ease;">
-                                    {{ item.nombre }}
-                                </a>
-                            </td>
-                            <td>{{ item.costoEstimadoInicial }}</td>
-                            <td>{{ item.inversion }}</td>
-                            <td>{{ item.fechaInicio }}</td>
-                            <td>{{ item.fechaFin }}</td>
-                            <td>{{ item.tiempoDeVida }}</td>
-                            <td>{{ item.capacidad }}</td>
-                            <td>{{ item.tipoEnergia }}</td>
-                            <td>{{ item.ubicacion }}</td>
-                            <td>{{ item.estado }}</td>
-                            <td>
-                                <div class="d-flex">
-                                    <!-- Botón de Editar -->
-                                    <a href="{{ url_for('proyecto.update', id=item.id) }}" class="btn btn-primary text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
-                                        <i class="fas fa-edit fa-lg"></i>
-                                    </a>
-                                
-                                    <!-- Botón de Eliminar -->
-                                    <a href="{{ url_for('proyecto.delete_proyecto', id=item.id) }}" class="btn btn-danger text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
-                                        <i class="fas fa-trash-alt fa-lg"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
+                        {% if lista %}
+                            {% for item in lista %}
+                                <tr class="text-center">
+                                    <td>
+                                        <a href="{{ url_for('inversionista.inversionista_id', id=item.id) }}" 
+                                           class="btn btn-outline-primary btn-sm w-100 text-start opacity-50 hover-opacity-100" 
+                                           style="transition: opacity 0.3s ease;">
+                                            {{ item.nombre }}
+                                        </a>
+                                    </td>
+                                    <td>{{ item.registro }}</td>
+                                    <td>{{ item.sector }}</td>
+                                    <td>{{ item.ubicacion }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{{ url_for('inversionista.update', id=item.id) }}" class="btn btn-primary text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
+                                                <i class="fas fa-edit fa-lg"></i>
+                                            </a>
+                                            <a href="{{ url_for('inversionista.delete_inversionista', id=item.id) }}" class="btn btn-danger text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
+                                                <i class="fas fa-trash-alt fa-lg"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">No hay datos disponibles.</td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -270,4 +190,5 @@
     </div>
 
 </div>
+
 {% endblock %}
