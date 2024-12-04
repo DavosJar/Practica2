@@ -13,19 +13,28 @@ public class MyResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() throws Exception {
+
+        int tiempoInicio;
+        int tiempoFinal;
+        int tiempoTotal;
+        int positio;
+        Integer cant = 10000;
+
+        LinkedList<Integer> lista;
+        lista = generarListaRandom(cant);
+        LinkedList<Integer> lista1 = lista.cloneList();
+        LinkedList<Integer> lista2 = lista.cloneList();
+        LinkedList<Integer> lista3 = lista.cloneList();
+        LinkedList<Integer> lista4 = lista.cloneList();
+        LinkedList<Integer> lista7 = lista.cloneList();
+
+        LinkedList<Integer> lista5;
+        LinkedList<Integer> lista6;
+
+        System.out.println("Lista generada con " + cant + " elementos");
+
         /*
-         * int tiempoInicio;
-         * int tiempoFinal;
-         * int tiempoTotal;
-         * int positio;
-         * 
-         * LinkedList<Integer> lista;
-         * lista = generarListaRandom(60000);
-         * LinkedList<Integer> lista1 = lista.cloneList();
-         * LinkedList<Integer> lista2 = lista.cloneList();
-         * LinkedList<Integer> lista3 = lista.cloneList();
-         * LinkedList<Integer> lista4 = lista.cloneList();
-         * LinkedList<Integer> lista5 = lista.cloneList();
+         * System.out.println("-----------------------------------------");
          * tiempoInicio = (int) System.currentTimeMillis();
          * lista1.shellSort(1);
          * tiempoFinal = (int) System.currentTimeMillis();
@@ -38,33 +47,29 @@ public class MyResource {
          * tiempoTotal = tiempoFinal - tiempoInicio;
          * System.out.println("Tiempo de ejecucion QuickSort : " + tiempoTotal +
          * " milisegundos");
+         * 
          * tiempoInicio = (int) System.currentTimeMillis();
          * lista3.mergeSort(1);
          * tiempoFinal = (int) System.currentTimeMillis();
          * tiempoTotal = tiempoFinal - tiempoInicio;
          * System.out.println("Tiempo de ejecucion MergeSort : " + tiempoTotal +
          * " milisegundos");
-         * Integer value = (int) (Math.random() * 60000);
-         * tiempoInicio = (int) System.nanoTime();
-         * positio = lista4.linearSearch(value);
-         * tiempoFinal = (int) System.nanoTime();
-         * tiempoTotal = tiempoFinal - tiempoInicio;
-         * System.out.println("Tiempo de ejecucion LinearSearch : " + tiempoTotal +
-         * " ns en posicion: " + positio);
-         * lista5.mergeSort(1);
-         * 
-         * tiempoInicio = (int) System.nanoTime();
-         * positio = lista5.binarySarch(value);
-         * tiempoFinal = (int) System.nanoTime();
-         * tiempoTotal = tiempoFinal - tiempoInicio;
-         * System.out.println("Tiempo de ejecucion BinarySearch con mergeSort : " +
-         * tiempoTotal + " ns en posicion: " + positio);
          */
-        LinkedList<Integer> lista = generarListaRandom(20);
-        System.out.println(lista);
-        LinkedList<Integer> lista1 = lista.linearBinarySearch(3);
-        System.out.println(lista1);
+        Integer value = (int) (Math.random() * 6500);
 
+        tiempoInicio = (int) System.nanoTime();
+        lista5 = lista4.secuentialSearch(value);
+        tiempoFinal = (int) System.nanoTime();
+        tiempoTotal = tiempoFinal - tiempoInicio;
+        System.out.println("Tiempo de ejecucion sequentialSearch : " +
+                tiempoTotal + " ns: " + lista5.getSize() + " elementos  con valor: " + value);
+
+        tiempoInicio = (int) System.nanoTime();
+        lista6 = lista7.linearBinarySearch(value);
+        tiempoFinal = (int) System.nanoTime();
+        tiempoTotal = tiempoFinal - tiempoInicio;
+        System.out.println("Tiempo de ejecucion LinearBinarySearch : " +
+                tiempoTotal + " ns: " + lista6.getSize() + " elementos  con valor: " + value);
         return "Got it!";
 
     }
@@ -72,7 +77,7 @@ public class MyResource {
     LinkedList<Integer> generarListaRandom(Integer cantidad) {
         LinkedList<Integer> lista = new LinkedList<>();
         for (int i = 0; i < cantidad; i++) {
-            lista.add((int) (Math.random() * 10));
+            lista.add((int) (Math.random() * 5000));
         }
         return lista;
     }

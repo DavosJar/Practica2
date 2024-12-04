@@ -224,26 +224,17 @@ def order_list(attribute, type, metodo):
 
 @proyecto.route('/list/search/<attribute>/<value>', methods=['GET'])
 def search_criteria(attribute, value):
-    criterios = charge_options(f'{URL}/list/criteria')  
-    try:
-        r = requests.get(f'{URL}/list/search/{attribute}/{value}')
-        r.raise_for_status()
-        response = r.json()  
-        
-        if response.get("status") == "ERROR":
-            print(f"Error desde la API: {response.get('msg', 'Error desconocido')}")
-            return render_template('lista_proyectos.html', lista=[], opciones=criterios, error=response.get('msg'))
-        
-        data = response.get("data", [])
-        
-        if not isinstance(data, list):
-            data = [data]
-        
-        return render_template('lista_proyectos.html', lista=data, opciones=criterios)
+    criterios = charge_options(f'{URL}/list/criteria')
+    r = requests.get(f'{URL}/list/search/{attribute}/{value}')
+    response = r.json()
     
-    except requests.RequestException as e:
-        print(f"Error al conectar con la API: {e}")
-        return render_template('lista_proyectos.html', lista=[], opciones=criterios, error="Error")
+    data = response.get("data", [])
+    # Diferenciar si es un diccionario o lista
+    if isinstance(data, dict):
+        data = [data] 
+        print("Datos recuperados:", data)
+    return render_template('lista_proyectos.html', lista=data, opciones=criterios)
+    
     
 def charge_options(endpoint):
     try:

@@ -679,6 +679,17 @@ public class LinkedList<E> {
         return positio;
     }
 
+    public LinkedList<E> secuentialSearch(E data) {
+        E[] lista = this.toArray();
+        LinkedList<E> result = new LinkedList<>();
+        for (E e : lista) {
+            if (e.equals(data)) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
     public LinkedList<E> linearBinarySearch(E data) {
         E[] lista = this.mergeSort(1).toArray();
         LinkedList<E> result = new LinkedList<>();

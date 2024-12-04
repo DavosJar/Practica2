@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block title %}{{ 'Editar Proyecto' if is_edit else 'Agregar Nuevo Proyecto' }}{% endblock %}
 {% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function () {
+                sessionStorage.setItem('proyectoCreado', 'true');
+            });
+        }
+    });
+</script>
 <div class="container py-5">
     <h2 class="mb-4">{{ 'Editar Proyecto' if is_edit else 'Agregar Nuevo Proyecto' }}</h2>
     <div class="card shadow-sm p-4">
