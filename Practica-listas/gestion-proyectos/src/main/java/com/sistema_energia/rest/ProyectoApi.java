@@ -144,16 +144,8 @@ public class ProyectoApi {
         EventoCrudServices ev = new EventoCrudServices();
         ProyectoServices ps = new ProyectoServices();
         try {
-            Object proyecto = ps.getProyectoById(id);
-
-            if (proyecto == null) {
-                map.put("msg", "ERROR");
-                map.put("data", "No se encontro el proyecto con id: " + id);
-                ev.registrarEvento(TipoCrud.READ, "No se encontro el proyecto con id: " + id);
-                return Response.status(Status.NOT_FOUND).entity(map).build();
-            }
             map.put("msg", "OK");
-            map.put("data", proyecto);
+            map.put("data", ps.getProyectoById(id));
             ev.registrarEvento(TipoCrud.READ, "Se ha consultado el proyecto con id: " + id);
             return Response.ok(map).build();
         } catch (Exception e) {
@@ -270,26 +262,16 @@ public class ProyectoApi {
             if (attribute == null || attribute.isEmpty() || value == null || value.isEmpty()) {
                 throw new IllegalArgumentException("Los parametros no pueden ser nulos o vacios.");
             }
-            if (attribute.equals("id") && !value.matches("[0-9]+")) {
-                throw new IllegalArgumentException("El valor de busqueda debe ser un numero entero.");
-            }
             if (attribute.equals("nombre") && !value.matches("[a-zA-Z]+")) {
                 throw new IllegalArgumentException("El valor de busqueda debe ser una cadena de texto.");
             }
 
-            if (attribute.equals("id") || attribute.equals("nombre")) {
-                Object proyecto = ps.obtenerProyectoPor(attribute, value);
-                if (proyecto == null) {
-                    res.put("status", "ERROR");
-                    res.put("msg", "No se encontró el proyecto con " + attribute + ": " + value);
-                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-                } else {
-                    res.put("status", "OK");
-                    res.put("msg", "Consulta exitosa.");
-                    res.put("data", proyecto);
-                    ev.registrarEvento(TipoCrud.LIST, "Se ha consultado el proyecto con " + attribute + ": " + value);
-                    return Response.ok(res).build();
-                }
+            if (attribute.equals("nombre")) {
+                res.put("status", "OK");
+                res.put("msg", "Consulta exitosa.");
+                res.put("data", ps.obtenerProyectoPor("nombre", value));
+                ev.registrarEvento(TipoCrud.LIST, "Se ha consultado el proyecto con " + attribute + ": " + value);
+                return Response.ok(res).build();
             } else {
                 LinkedList<Proyecto> proyectos = ps.getProyectosBy(attribute, value);
                 res.put("status", "OK");
