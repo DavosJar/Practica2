@@ -193,18 +193,12 @@ public class InversionistaApi {
                 throw new IllegalArgumentException("El valor de busqueda debe ser una cadena de texto.");
             }
 
-            if (attribute.equals("id") || attribute.equals("nombre")) {
-                Object inversionista = ps.obtenerInversionistaPor(attribute, value);
-                if (inversionista == null) {
-                    res.put("status", "ERROR");
-                    res.put("msg", "No se encontró el inveriosnista con " + attribute + ": " + value);
-                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-                } else {
+            if (attribute.equals("nombre")) {
                     res.put("status", "OK");
                     res.put("msg", "Consulta exitosa.");
-                    res.put("data", inversionista);
+                    res.put("data", is.getInversionista("nombre", value);
                     ev.registrarEvento(TipoCrud.LIST,
-                            "Se ha consultado el invesionista con " + attribute + ": " + value);
+                            "Se ha consultado el invesionista con: " + value);
                     return Response.ok(res).build();
                 }
             } else {
