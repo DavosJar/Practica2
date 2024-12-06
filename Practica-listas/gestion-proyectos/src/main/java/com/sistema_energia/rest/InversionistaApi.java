@@ -17,6 +17,7 @@ import com.sistema_energia.controller.dao.services.EventoCrudServices;
 import com.sistema_energia.controller.dao.services.InversionistaServices;
 import com.sistema_energia.controller.dao.services.ProyectoServices;
 import com.sistema_energia.controller.excepction.ListEmptyException;
+import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.TipoCrud;
 
 @SuppressWarnings("rawtypes")
@@ -31,9 +32,6 @@ public class InversionistaApi {
         InversionistaServices is = new InversionistaServices();
         EventoCrudServices ev = new EventoCrudServices();
         try {
-            res.put("status", "OK");
-            res.put("msg", "Consulta exitosa.");
-            res.put("data", is.listAll().toArray());
             if (is.listAll().isEmpty()) {
                 res.put("data", new Object[] {});
             }
@@ -254,9 +252,10 @@ public class InversionistaApi {
         EventoCrudServices ev = new EventoCrudServices();
         try {
             res.put("status", "OK");
+            LinkedList lista = ps.selectOrder(attribute, type, method);
             res.put("msg", "Consulta exitosa.");
             res.put("data", ps.selectOrder(attribute, type, method).toArray());
-            if (ps.selectOrder(attribute, type, method).isEmpty()) {
+            if (lista.isEmpty()) {
                 res.put("data", new Object[] {});
             }
             ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de inversionistas.");
