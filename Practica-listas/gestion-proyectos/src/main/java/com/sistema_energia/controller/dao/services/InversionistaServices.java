@@ -8,7 +8,7 @@ import com.sistema_energia.controller.tda.list.LinkedList;
 
 public class InversionistaServices {
 
-    private InversionistaDao obj;
+    private final InversionistaDao obj;
 
     public InversionistaServices() {
         obj = new InversionistaDao();
@@ -45,11 +45,7 @@ public class InversionistaServices {
     }
 
     public LinkedList<Inversionista> getInversionistasBy(String atributo, Object valor) throws Exception {
-        return obj.buscar(atributo, valor);
-    }
-
-    public LinkedList<Inversionista> orderListBy(String atributo, Integer orden) throws Exception {
-        return obj.orderList(atributo, orden);
+        return obj.buscarLista(atributo, valor);
     }
 
     public LinkedList<Inversionista> selectOrder(String atributo, Integer orden, String method) throws Exception {
@@ -57,7 +53,7 @@ public class InversionistaServices {
     }
 
     public Inversionista obtenerInversionistaPor(String atributo, Object valor) throws Exception {
-        return obj.buscarPor(atributo, valor);
+        return obj.buscarObjeto(atributo, valor);
     }
 
     public Boolean update() throws Exception {

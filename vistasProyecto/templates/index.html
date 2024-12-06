@@ -2,6 +2,37 @@
 
 {% block title %}Lista de Proyectos{% endblock %}
 
-{% block content %}
 
+{% block content %}
+<div class="container py-4">
+    <h2 class="text-center mb-4">Informacion General</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col d-flex align-items-stretch">
+            <div class="card text-white bg-primary w-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Proyectos</h5>
+                    <p class="card-text display-4">{{ proyectos }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col d-flex align-items-stretch">
+            <div class="card text-white bg-success w-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inversionistas</h5>
+                    <p class="card-text display-4">{{ inversionistas }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col d-flex align-items-stretch">
+            <div class="card text-white bg-danger w-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inversiones</h5>
+                    <p class="card-text display-4">{{ participaciones }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

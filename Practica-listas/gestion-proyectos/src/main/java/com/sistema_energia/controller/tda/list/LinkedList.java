@@ -274,14 +274,14 @@ public class LinkedList<E> {
         if (!isEmpty()) {
             E[] lista = this.toArray();
             reset();
-            int n = lista.length;
+            int tamanio = lista.length;
 
-            for (int gap = n / 2; gap > 0; gap /= 2) {
-                for (int i = gap; i < n; i++) {
+            for (int gap = tamanio / 2; gap > 0; gap /= 2) {
+                for (int i = gap; i < tamanio; i++) {
                     E aux = lista[i];
                     int j = i;
 
-                    while (j >= gap && attributeCompare(attribute, lista[j - gap], aux, type)) {
+                    while (j >= gap && attributeCompare(attribute, aux, lista[j - gap], type)) {
                         lista[j] = lista[j - gap];
                         j -= gap;
                     }
@@ -308,19 +308,19 @@ public class LinkedList<E> {
     private void quickSort(E[] lista, Integer low, Integer high, String attribute, Integer type) throws Exception {
         if (low < high) {
 
-            Integer pivot = particion(lista, low, high, attribute, type);
+            Integer pivotIndex = particion(lista, low, high, attribute, type);
 
-            quickSort(lista, low, pivot - 1, attribute, type);
-            quickSort(lista, pivot + 1, high, attribute, type);
+            quickSort(lista, low, pivotIndex - 1, attribute, type);
+            quickSort(lista, pivotIndex + 1, high, attribute, type);
         }
     }
 
-    private Integer particion(E[] lista, Integer low, Integer high, String attribute, Integer type) throws Exception {
-        E pivot = lista[high];
+    private Integer particion(E[] lista, Integer start, Integer end, String attribute, Integer type) throws Exception {
+        E pivotObject = lista[end];
 
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (attributeCompare(attribute, lista[j], pivot, type)) {
+        int i = start - 1;
+        for (int j = start; j < end; j++) {
+            if (attributeCompare(attribute, lista[j], pivotObject, type)) {
                 i++;
                 E aux = lista[i];
                 lista[i] = lista[j];
@@ -329,8 +329,8 @@ public class LinkedList<E> {
         }
 
         E aux = lista[i + 1];
-        lista[i + 1] = lista[high];
-        lista[high] = aux;
+        lista[i + 1] = lista[end];
+        lista[end] = aux;
 
         return i + 1;
     }
@@ -345,52 +345,53 @@ public class LinkedList<E> {
         return this;
     }
 
-    private void mergeSort(E[] lista, Integer l, Integer r, String attribute, Integer type) throws Exception {
-        if (l < r) {
-            int m = (l + r) / 2;
-            mergeSort(lista, l, m, attribute, type);
-            mergeSort(lista, m + 1, r, attribute, type);
-            merge(lista, l, m, r, attribute, type);
+    private void mergeSort(E[] lista, Integer left, Integer rigth, String attribute, Integer type) throws Exception {
+        if (left < rigth) {
+            int middle = (left + rigth) / 2;
+            mergeSort(lista, left, middle, attribute, type);
+            mergeSort(lista, middle + 1, rigth, attribute, type);
+            merge(lista, left, middle, rigth, attribute, type);
         }
     }
 
-    private void merge(E[] lista, Integer l, Integer m, Integer r, String attribute, Integer type) throws Exception {
-        int n1 = m - l + 1;
-        int n2 = r - m;
+    private void merge(E[] lista, Integer left, Integer middle, Integer rigth, String attribute, Integer type)
+            throws Exception {
+        int leftSize = middle - left + 1;
+        int rigthSize = rigth - middle;
 
-        E[] L = (E[]) java.lang.reflect.Array.newInstance(lista.getClass().getComponentType(), n1);
-        E[] R = (E[]) java.lang.reflect.Array.newInstance(lista.getClass().getComponentType(), n2);
+        E[] leftList = (E[]) java.lang.reflect.Array.newInstance(lista.getClass().getComponentType(), leftSize);
+        E[] rigthList = (E[]) java.lang.reflect.Array.newInstance(lista.getClass().getComponentType(), rigthSize);
 
-        for (int i = 0; i < n1; i++) {
-            L[i] = lista[l + i];
+        for (int i = 0; i < leftSize; i++) {
+            leftList[i] = lista[left + i];
         }
-        for (int j = 0; j < n2; j++) {
-            R[j] = lista[m + 1 + j];
+        for (int j = 0; j < rigthSize; j++) {
+            rigthList[j] = lista[middle + 1 + j];
         }
 
-        int leftIndex = 0, rightIndex = 0;
-        int k = l;
+        int leftIndex = 0, rightIndex = 0; // indices en las sublistas
+        int k = left;// indice en la lista combinadad
 
-        while (leftIndex < n1 && rightIndex < n2) {
-            boolean condicion = attributeCompare(attribute, L[leftIndex], R[rightIndex], type);
+        while (leftIndex < leftSize && rightIndex < rigthSize) {
+            boolean condicion = attributeCompare(attribute, leftList[leftIndex], rigthList[rightIndex], type);
             if (condicion) {
-                lista[k] = L[leftIndex];
+                lista[k] = leftList[leftIndex];
                 leftIndex++;
             } else {
-                lista[k] = R[rightIndex];
+                lista[k] = rigthList[rightIndex];
                 rightIndex++;
             }
             k++;
         }
 
-        while (leftIndex < n1) {
-            lista[k] = L[leftIndex];
+        while (leftIndex < leftSize) {
+            lista[k] = leftList[leftIndex];
             leftIndex++;
             k++;
         }
 
-        while (rightIndex < n2) {
-            lista[k] = R[rightIndex];
+        while (rightIndex < rigthSize) {
+            lista[k] = rigthList[rightIndex];
             rightIndex++;
             k++;
         }
@@ -535,10 +536,6 @@ public class LinkedList<E> {
         return this;
     }
 
-    // QuilSort
-    // type = 1 ordena de menor a mayor
-    // type = 0 ordena de mayor a menor
-    // Retorna la lista ordenada
     public LinkedList<E> quickSort(Integer type) {
         if (!isEmpty()) {
             E[] lista = this.toArray();
@@ -549,10 +546,6 @@ public class LinkedList<E> {
         return this;
     }
 
-    // Metodo para ordenar la lista con quicksort
-    // type = 1 ordena de menor a mayor
-    // type = 0 ordena de mayor a menor
-    // no retorna nada
     private void quickSort(E[] lista, Integer low, Integer high, Integer type) {
         if (low < high) {
             Integer pivot = particion(lista, low, high, type);
@@ -561,8 +554,6 @@ public class LinkedList<E> {
         }
     }
 
-    // metodo para particionar la lista en quicksort
-    // retorna el pivote
     private Integer particion(E[] lista, Integer low, Integer high, Integer type) {
         E pivot = lista[high];
         int i = (low - 1);
@@ -583,10 +574,6 @@ public class LinkedList<E> {
         return i + 1;
     }
 
-    // Metodo para ordenar la lista con mergesort
-    // type = 1 ordena de menor a mayor
-    // type = 0 ordena de mayor a menor
-    // Retorna la lista ordenada
     public LinkedList<E> mergeSort(Integer type) {
         if (!isEmpty()) {
             E[] lista = this.toArray();

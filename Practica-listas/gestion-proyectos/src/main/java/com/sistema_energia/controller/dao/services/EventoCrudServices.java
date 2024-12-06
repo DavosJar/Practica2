@@ -8,7 +8,7 @@ import com.sistema_energia.eventos.TipoCrud;
 @SuppressWarnings({ "unchecked", "ConvertToTryWithResources" })
 
 public class EventoCrudServices {
-    private EventoCrudDao obj;
+    private final EventoCrudDao obj;
 
     public EventoCrudServices() {
         obj = new EventoCrudDao();

@@ -40,10 +40,9 @@ public class ParticipacionApi {
         EventoCrudServices ev = new EventoCrudServices();
         try {
             res.put("status", "OK");
-            LinkedList lista = ps.listAll();
             res.put("msg", "Consulta exitosa.");
-            res.put("data", lista.toArray());
-            if (lista.isEmpty()) {
+            res.put("data", ps.listAll().toArray());
+            if (ps.listAll().isEmpty()) {
                 res.put("data", new Object[] {});
             }
             ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de participacions.");
@@ -79,7 +78,6 @@ public class ParticipacionApi {
                     ps.getParticipacion().setIdProyecto(p.getProyecto().getId());
                     ps.getParticipacion().setMontoInvertido(montoInvertido);
                     ps.getParticipacion().setFechaRegistro(map.get("fechaRegistro").toString());
-                    ps.actualizarInversiones(p.getProyecto().getId(), montoInvertido);
 
                     ps.save();
 
@@ -141,8 +139,8 @@ public class ParticipacionApi {
                         res.put("msg", "OK");
                         res.put("data", " Guardado con exito");
                         String nombreParticipacion = ps.getParticipacion().getIdInversionista().toString();
-                        ev.registrarEvento(TipoCrud.CREATE,
-                                "Se ha creado un nuevo participacion." + nombreParticipacion);
+                        ev.registrarEvento(TipoCrud.UPDATE,
+                                "Se ha actualizado el participacion: " + nombreParticipacion);
                         return Response.ok(res).build();
                     } else {
                         res.put("msg", "ERROR");
@@ -201,6 +199,11 @@ public class ParticipacionApi {
         try {
             map.put("msg", "OK");
             map.put("data", ps.getParticipacionById(id));
+            if (ps.getParticipacionById(id) == null) {
+                map.put("msg", "ERROR");
+                map.put("data", "Objeto no encontrado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+            }
             ev.registrarEvento(TipoCrud.READ, "Se ha consultado el participacion con id: " + id);
             return Response.ok(map).build();
         } catch (Exception e) {
@@ -220,6 +223,9 @@ public class ParticipacionApi {
         ParticipacionServices ps = new ParticipacionServices();
         EventoCrudServices ev = new EventoCrudServices();
         try {
+            if (attribute.equals("id")) {
+                throw new IllegalArgumentException("Criterio de busqueda no valido");
+            }
             LinkedList<Participacion> proyectos = ps.getParticipacionsBy(attribute, value);
             res.put("status", "OK");
             res.put("msg", "Consulta exitosa.");

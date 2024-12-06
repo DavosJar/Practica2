@@ -21,8 +21,6 @@ import javax.ws.rs.core.Response.Status;
 import com.sistema_energia.controller.dao.services.EventoCrudServices;
 import com.sistema_energia.controller.dao.services.ProyectoServices;
 import com.sistema_energia.controller.excepction.ListEmptyException;
-import com.sistema_energia.controller.model.Proyecto;
-import com.sistema_energia.controller.tda.list.LinkedList;
 import com.sistema_energia.eventos.TipoCrud;
 
 @SuppressWarnings({ "unchecked", "ConvertToTryWithResources", "rawtypes", "CallToPrintStackTrace" })
@@ -38,10 +36,9 @@ public class ProyectoApi {
         EventoCrudServices ev = new EventoCrudServices();
         try {
             res.put("status", "OK");
-            LinkedList lista = ps.listAll();
             res.put("msg", "Consulta exitosa.");
-            res.put("data", lista.toArray());
-            if (lista.isEmpty()) {
+            res.put("data", ps.listAll().toArray());
+            if (ps.listAll().isEmpty()) {
                 res.put("data", new Object[] {});
             }
             ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de proyectos.");
@@ -79,6 +76,12 @@ public class ProyectoApi {
             }
             if (map.get("tiempoDeVida") == null) {
                 throw new IllegalArgumentException("El tiempo de vida es obligatorio.");
+            }
+            if (map.get("tipoEnergia") == null || map.get("tipoEnergia").toString().isEmpty()) {
+                throw new IllegalArgumentException("El tipo de energía es obligatorio.");
+            }
+            if (map.get("ubicacion") == null || map.get("ubicacion").toString().isEmpty()) {
+                throw new IllegalArgumentException("La ubicación es obligatoria.");
             }
 
             ps.getProyecto().setNombre(map.get("nombre").toString());
@@ -146,6 +149,11 @@ public class ProyectoApi {
         try {
             map.put("msg", "OK");
             map.put("data", ps.getProyectoById(id));
+            if (ps.getProyectoById(id) == null) {
+                map.put("msg", "ERROR");
+                map.put("error", "No se encontro el proyecto con id: " + id);
+                return Response.status(Status.NOT_FOUND).entity(map).build();
+            }
             ev.registrarEvento(TipoCrud.READ, "Se ha consultado el proyecto con id: " + id);
             return Response.ok(map).build();
         } catch (Exception e) {
@@ -226,7 +234,7 @@ public class ProyectoApi {
             if (map.containsKey("fechaFin") && map.get("fechaFin") != null) {
                 ps.getProyecto().setFechaFin(map.get("fechaFin").toString());
             } else {
-                ps.getProyecto().setFechaFin(null);
+                ps.getProyecto().setFechaFin("none");
             }
 
             ps.update();
@@ -252,6 +260,38 @@ public class ProyectoApi {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/list/search/nombre/{value}")
+    public Response buscarPorNombre(@PathParam("value") String value) throws Exception {
+        HashMap<String, Object> res = new HashMap<>();
+        ProyectoServices ps = new ProyectoServices();
+        EventoCrudServices ev = new EventoCrudServices();
+        try {
+            if (value == null || value.isEmpty()) {
+                throw new IllegalArgumentException("El valor de busqueda no puede ser nulo o vacio.");
+            }
+            if (ps.obtenerProyectoPor("nombre", value) != null) {
+                res.put("status", "OK");
+                res.put("msg", "Consulta exitosa.");
+                res.put("data", ps.obtenerProyectoPor("nombre", value));
+                ev.registrarEvento(TipoCrud.LIST, "Se ha consultado el proyecto con nombre: " + value);
+                return Response.ok(res).build();
+            } else {
+                res.put("status", "ERROR");
+                res.put("msg", "No se encontraron resultados para la busqueda.");
+                ev.registrarEvento(TipoCrud.LIST, "No se encontraron resultados para la busqueda.");
+                return Response.status(Response.Status.NOT_FOUND).entity(res).build();
+            }
+
+        } catch (Exception e) {
+            res.put("status", "ERROR");
+            res.put("msg", "Error realizar la busqueda: " + e.getMessage());
+            ev.registrarEvento(TipoCrud.LIST, "Error inesperado: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list/search/{attribute}/{value}")
     public Response buscar(@PathParam("attribute") String attribute, @PathParam("value") String value)
             throws Exception {
@@ -262,28 +302,19 @@ public class ProyectoApi {
             if (attribute == null || attribute.isEmpty() || value == null || value.isEmpty()) {
                 throw new IllegalArgumentException("Los parametros no pueden ser nulos o vacios.");
             }
-            if (attribute.equals("nombre") && !value.matches("[a-zA-Z]+")) {
-                throw new IllegalArgumentException("El valor de busqueda debe ser una cadena de texto.");
+            if (attribute.equals("id")) {
+                throw new IllegalArgumentException("No se puede buscar por id.");
             }
+            res.put("status", "OK");
+            res.put("msg", "Consulta exitosa.");
+            res.put("data", ps.getProyectosBy(attribute, value).toArray());
+            if (ps.getProyectosBy(attribute, value).isEmpty()) {
+                res.put("data", new Object[] {});
 
-            if (attribute.equals("nombre")) {
-                res.put("status", "OK");
-                res.put("msg", "Consulta exitosa.");
-                res.put("data", ps.obtenerProyectoPor("nombre", value));
-                ev.registrarEvento(TipoCrud.LIST, "Se ha consultado el proyecto con " + attribute + ": " + value);
-                return Response.ok(res).build();
-            } else {
-                LinkedList<Proyecto> proyectos = ps.getProyectosBy(attribute, value);
-                res.put("status", "OK");
-                res.put("msg", "Consulta exitosa.");
-                res.put("data", proyectos.toArray());
-                if (proyectos.isEmpty()) {
-                    res.put("data", new Object[] {});
-
-                }
-                ev.registrarEvento(TipoCrud.LIST, "Se ha consultado el proyecto con " + attribute + ": " + value);
-                return Response.ok(res).build();
             }
+            ev.registrarEvento(TipoCrud.LIST, "Se ha consultado el proyecto con " + attribute + ": " + value);
+            return Response.ok(res).build();
+
         } catch (Exception e) {
             res.put("status", "ERROR");
             res.put("msg", "Error realizar la busqueda: " + e.getMessage());
@@ -303,10 +334,9 @@ public class ProyectoApi {
         EventoCrudServices ev = new EventoCrudServices();
         try {
             res.put("status", "OK");
-            LinkedList lista = ps.selectOrder(attribute, type, method);
             res.put("msg", "Consulta exitosa.");
-            res.put("data", lista.toArray());
-            if (lista.isEmpty()) {
+            res.put("data", ps.selectOrder(attribute, type, method).toArray());
+            if (ps.selectOrder(attribute, type, method).isEmpty()) {
                 res.put("data", new Object[] {});
             }
             ev.registrarEvento(TipoCrud.LIST, "Se ha consultado la lista de proyectos.");

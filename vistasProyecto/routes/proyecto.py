@@ -207,12 +207,6 @@ def update_proyecto(id):
 def order_list(attribute, type, metodo):
     criterios = charge_options(f'{URL}/list/criteria')
     try:
-        if metodo.lower() == "shell":
-            if type == '1':
-                type = '0' 
-            elif type == '0':
-                type = '1' 
-        
         r = requests.get(f'{URL}/list/order/{attribute}/{type}/{metodo}')
         r.raise_for_status()
         data = r.json()

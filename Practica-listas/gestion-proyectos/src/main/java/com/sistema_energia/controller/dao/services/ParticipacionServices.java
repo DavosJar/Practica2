@@ -38,12 +38,6 @@ public class ParticipacionServices {
 
     }
 
-    public String toJson() throws Exception {
-        return obj.toJson();
-
-    }
-
-    // Busquedas por atributos
     public LinkedList<Participacion> getParticipacionsBy(String atributo, Object valor) throws Exception {
         return obj.buscar(atributo, valor);
     }
@@ -57,7 +51,7 @@ public class ParticipacionServices {
     }
 
     public Participacion obtenerParticipacionPor(String atributo, Object valor) throws Exception {
-        return obj.buscarPor(atributo, valor);
+        return obj.buscarObjeto(atributo, valor);
     }
 
     public Boolean update() throws Exception {
@@ -66,10 +60,6 @@ public class ParticipacionServices {
 
     public String[] getParticipacionAttributeLists() {
         return obj.getParticipacionAttributeLists();
-    }
-
-    public void actualizarInversiones(Integer idProyecto, Double montoInvertido) throws Exception {
-        obj.actualizrInversionProyecto(idProyecto, montoInvertido);
     }
 
     public LinkedList<Participacion> getParticipacionesByProyecto(Integer idProyecto) throws Exception {

@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import com.google.gson.Gson;
 import com.sistema_energia.controller.dao.implement.AdapterDao;
 import com.sistema_energia.controller.dao.implement.Contador;
-import com.sistema_energia.controller.dao.services.ProyectoServices;
 import com.sistema_energia.controller.model.Participacion;
 import com.sistema_energia.controller.tda.list.LinkedList;
 
@@ -91,23 +90,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         }
     }
 
-    public Participacion buscarPor(String attribute, Object value) throws Exception {
-        LinkedList<Participacion> lista = listAll();
-        Participacion p = null;
-
-        if (!lista.isEmpty()) {
-            Participacion[] participacions = lista.toArray();
-            for (int i = 0; i < participacions.length; i++) {
-                if (obtenerAttributeValue(participacions[i], attribute).toString().toLowerCase()
-                        .equals(value.toString().toLowerCase())) {
-                    p = participacions[i];
-                    break;
-                }
-            }
-        }
-        return p;
-    }
-
     private Integer getParticipacionIndex(String attribute, Object value) throws Exception {
         if (this.listAll == null) {
             this.listAll = listAll();
@@ -137,22 +119,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
             }
         }
         return attributes.toArray();
-    }
-
-    public void actualizrInversionProyecto(Integer idProyecto, Double montoInvertido) throws Exception {
-        Double resultado = montoInvertido;
-        ProyectoServices ps = new ProyectoServices();
-        LinkedList<Participacion> lista = obtenerParticipacionesProyecto(idProyecto);
-        if (!lista.isEmpty()) {
-            Participacion[] participacions = lista.toArray();
-            for (Participacion p : participacions) {
-                resultado += p.getMontoInvertido();
-            }
-        }
-        ps.setProyecto(ps.getProyectoById(idProyecto));
-        ps.getProyecto().setInversion(resultado);
-
-        ps.update();
     }
 
     public LinkedList<Participacion> obtenerParticipacionesProyecto(Integer id) {
@@ -245,7 +211,6 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
                 mid = (low + high) / 2;
 
                 String midValue = obtenerAttributeValue(aux[mid], attribute).toString().toLowerCase();
-                System.out.println("Comparando: " + midValue + " con " + searchValue);
 
                 if (midValue.startsWith(searchValue)) {
                     if (mid == 0 || !obtenerAttributeValue(aux[mid - 1], attribute).toString().toLowerCase()
@@ -276,23 +241,41 @@ public class ParticipacionDao extends AdapterDao<Participacion> {
         return participaciones;
     }
 
-    public LinkedList<Participacion> buscar(String attribute, Object value) throws Exception {
-        return linearBinarySearch(attribute, value);
+    public Participacion buscarObjeto(String attribute, Object value) throws Exception {
+        return binarySearch(attribute, value);
     }
 
-    public String toJson() throws Exception {
-        return g.toJson(this.participacion);
+    private Participacion binarySearch(String attribute, Object value) throws Exception {
+        LinkedList<Participacion> lista = listAll().quickSort(attribute, 1);
+
+        if (!lista.isEmpty()) {
+            Participacion[] participacions = lista.toArray();
+            Integer inicio = 0;
+            Integer fin = participacions.length - 1;
+            Integer medio;
+            while (inicio <= fin) {
+                medio = (inicio + fin) / 2;
+                String midValue = obtenerAttributeValue(participacions[medio], attribute).toString().toLowerCase();
+                if (midValue.equals(value.toString().toLowerCase())) {
+                    participacion = participacions[medio];
+                    break;
+                } else if (midValue.compareToIgnoreCase(value.toString().toLowerCase()) < 0) {
+                    inicio = medio + 1;
+                } else {
+                    fin = medio - 1;
+                }
+            }
+            return participacion;
+        }
+        return participacion;
+    }
+
+    public LinkedList<Participacion> buscar(String attribute, Object value) throws Exception {
+        return linearBinarySearch(attribute, value);
     }
 
     public Participacion getParticipacionById(Integer id) throws Exception {
         return get(id);
     }
 
-    public String getParticipacionJasonByIndex(Integer index) throws Exception {
-        return g.toJson(get(index));
-    }
-
-    public String getParticipacionJson(Integer Index) throws Exception {
-        return g.toJson(get(Index));
-    }
 }

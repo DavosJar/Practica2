@@ -3,6 +3,35 @@
 {% block title %}Detalles del Proyecto{% endblock %}
 
 {% block content %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const calculateTotalInversion = () => {
+            let total = 0;
+
+            const rows = document.querySelectorAll("table tbody tr");
+
+            rows.forEach(row => {
+                const inversionCell = row.cells[3];
+                if (inversionCell) {
+                    const inversionValue = parseFloat(inversionCell.textContent.trim().replace(/[^0-9.]/g, ""));
+                    if (!isNaN(inversionValue)) {
+                        total += inversionValue;
+                    }
+                }
+            });
+
+            const inversionElement = document.querySelector("#proyecto-inversion");
+            if (inversionElement) {
+                inversionElement.textContent = total.toLocaleString("es-ES", {
+                    style: "currency",
+                    currency: "USD"
+                });
+            }
+        };
+
+        calculateTotalInversion();
+    });
+</script>
 <div class="container my-5">
     <div class="d-flex align-items-center mb-4">
         <a href="{{ url_for('proyecto.home') }}" class="btn btn-outline-primary rounded-pill">
@@ -23,7 +52,8 @@
                     <p class="card-text"><strong>Fecha de Inicio:</strong> <span class="text-muted">{{ proyecto.fechaInicio }}</span></p>
                     <p class="card-text"><strong>Tiempo de Vida (años):</strong> <span class="text-muted">{{ proyecto.tiempoDeVida }}</span></p>
                     <p class="card-text"><strong>Capacidad (MW):</strong> <span class="text-muted">{{ proyecto.capacidad }}</span></p>
-                    <p class="card-text"><strong>Inversión:</strong> <span class="text-muted">{{ proyecto.inversion }}</span></p>
+                    <p class="card-text"><strong>Inversión:</strong> <span id="proyecto-inversion" class="text-muted">0</span></p>
+
                 </div>
             </div>
         </div>

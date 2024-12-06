@@ -41,29 +41,8 @@ public class ProyectoServices {
 
     }
 
-    /*
-     * public Boolean saveInversionistaProyecto(Inversionista inversionista, int
-     * proyectoId) throws Exception{
-     * return obj.saveInversionistaProyecto(inversionista, proyectoId);
-     * }
-     * public LinkedList<Inversionista> getInversionistasByProyectoId(Integer
-     * proyectoId) throws Exception{
-     * return obj.getInversionistasByProyectoId(proyectoId);
-     * }
-     */
-
-    public String toJson() throws Exception {
-        return obj.toJson();
-
-    }
-
-    // Busquedas po
     public LinkedList<Proyecto> getProyectosBy(String atributo, Object valor) throws Exception {
-        return obj.buscar(atributo, valor);
-    }
-
-    public LinkedList<Proyecto> orderListBy(String atributo, Integer orden) throws Exception {
-        return obj.orderList(atributo, orden);
+        return obj.buscarLista(atributo, valor);
     }
 
     public LinkedList<Proyecto> selectOrder(String atributo, Integer orden, String method) throws Exception {
@@ -71,7 +50,7 @@ public class ProyectoServices {
     }
 
     public Proyecto obtenerProyectoPor(String atributo, Object valor) throws Exception {
-        return obj.buscarPor(atributo, valor);
+        return obj.buscarObjeto(atributo, valor);
     }
 
     public Boolean update() throws Exception {
@@ -106,7 +85,4 @@ public class ProyectoServices {
         return obj.getProyectoAttributeLists();
     }
 
-    public void getInversionTotal(Integer idProyecto) throws Exception {
-        obj.calcularInversion(idProyecto);
-    }
 }

@@ -104,7 +104,6 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
                 mid = (low + high) / 2;
 
                 String midValue = obtenerAttributeValue(aux[mid], attribute).toString().toLowerCase();
-                System.out.println("Comparando: " + midValue + " con " + searchValue);
 
                 if (midValue.startsWith(searchValue)) {
                     if (mid == 0 || !obtenerAttributeValue(aux[mid - 1], attribute).toString().toLowerCase()
@@ -136,25 +135,37 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         return inversionistas;
     }
 
-    public LinkedList<Inversionista> buscar(String attribute, Object value) throws Exception {
+    public LinkedList<Inversionista> buscarLista(String attribute, Object value) throws Exception {
         return linearBinarySearch(attribute, value);
     }
 
-    public Inversionista buscarPor(String attribute, Object value) throws Exception {
-        LinkedList<Inversionista> lista = listAll();
-        Inversionista p = null;
+    public Inversionista buscarObjeto(String attribute, Object value) throws Exception {
+        return binarySearch(attribute, value);
+    }
+
+    private Inversionista binarySearch(String attribute, Object value) throws Exception {
+        LinkedList<Inversionista> lista = listAll().quickSort(attribute, 1);
 
         if (!lista.isEmpty()) {
             Inversionista[] inversionistas = lista.toArray();
-            for (int i = 0; i < inversionistas.length; i++) {
-                if (obtenerAttributeValue(inversionistas[i], attribute).toString().toLowerCase()
-                        .equals(value.toString().toLowerCase())) {
-                    p = inversionistas[i];
+            Integer inicio = 0;
+            Integer fin = inversionistas.length - 1;
+            Integer medio;
+            while (inicio <= fin) {
+                medio = (inicio + fin) / 2;
+                String midValue = obtenerAttributeValue(inversionistas[medio], attribute).toString().toLowerCase();
+                if (midValue.equals(value.toString().toLowerCase())) {
+                    inversionista = inversionistas[medio];
                     break;
+                } else if (midValue.compareToIgnoreCase(value.toString().toLowerCase()) < 0) {
+                    inicio = medio + 1;
+                } else {
+                    fin = medio - 1;
                 }
             }
+            return inversionista;
         }
-        return p;
+        return inversionista;
     }
 
     private Integer getInversionistaIndex(String attribute, Object value) throws Exception {
@@ -180,7 +191,7 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         for (Method m : Inversionista.class.getDeclaredMethods()) {
             if (m.getName().startsWith("get")) {
                 String attribute = m.getName().substring(3);
-                if (!attribute.equalsIgnoreCase("id")) {
+                if (!attribute.equalsIgnoreCase("id") && !attribute.equalsIgnoreCase("descripcion")) {
                     attributes.add(attribute.substring(0, 1).toLowerCase() + attribute.substring(1));
                 }
             }
@@ -188,23 +199,14 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         return attributes.toArray();
     }
 
-    public LinkedList<Inversionista> orderList(String attribute, Integer order) throws Exception {
-        LinkedList<Inversionista> lista = listAll();
-
-        if (!lista.isEmpty()) {
-            lista.mergeSort(attribute, order);
-        }
-        return lista;
-    }
-
     private Object obtenerAttributeValue(Object object, String attribute) throws Exception {
-        String normalizedAttribute = "get" + attribute.substring(0, 1).toUpperCase()
+        String clazzAtr = "get" + attribute.substring(0, 1).toUpperCase()
                 + attribute.substring(1).toLowerCase();
         Method[] methods = object.getClass().getMethods();
 
-        for (Method method : methods) {
-            if (method.getName().equalsIgnoreCase(normalizedAttribute) && method.getParameterCount() == 0) {
-                return method.invoke(object);
+        for (Method m : methods) {
+            if (m.getName().equalsIgnoreCase(clazzAtr) && m.getParameterCount() == 0) {
+                return m.invoke(object);
             }
         }
 

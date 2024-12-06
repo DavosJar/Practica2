@@ -41,15 +41,15 @@
         
         updateArrowUrls();
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    const confirmation = confirm("Estas seguro de que deseas eliminar este proyecto?");
-                    if (!confirmation) {
-                        event.preventDefault();
-                    }
-                });
+        $(document).ready(function() {
+            $('.delete-btn').on('click', function(event) {
+                const confirmation = confirm("¿Estás seguro de que deseas eliminar este proyecto?");
+                if (!confirmation) {
+                    event.preventDefault();
+                    return;
+                }
+        
+                alert("Objeto eliminado");
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
@@ -59,7 +59,6 @@
             }
         });
 </script>
-
 
 <div class="content-container py-4 px-3">
     <div class="container-fluid bg-white shadow-sm rounded py-4">
@@ -109,9 +108,9 @@
             <h3 class="text-secondary mb-4">Lista de Proyectos</h3>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered table-striped">
-                    <thead class="thead-dark">
+                    <thead class="thead-light">
                         <tr>
-                            <th class="text-center" style="max-width: 125px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-project-diagram"></i> Nombre
                                 </div>
@@ -124,7 +123,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-money-bill-wave"></i> Presupuesto
                                 </div>
@@ -137,7 +136,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-calendar-day"></i> Fecha Inicio
                                 </div>
@@ -150,7 +149,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-calendar-alt"></i> Fecha Fin
                                 </div>
@@ -163,7 +162,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 100px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-hourglass-half"></i> Tiempo de Vida
                                 </div>
@@ -176,7 +175,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-sun"></i> Producción (MW/día)
                                 </div>
@@ -189,7 +188,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-bolt"></i> Tipo de Energía
                                 </div>
@@ -202,7 +201,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 110px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-map-marker-alt"></i> Ubicación
                                 </div>
@@ -215,7 +214,7 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 120px; font-size: 0.9em;">
+                            <th class="text-center align-middle">
                                 <div>
                                     <i class="fas fa-clipboard-list"></i> Estado
                                 </div>
@@ -228,44 +227,46 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="text-center" style="max-width: 150px; font-size: 0.9em;">
-                                Acciones
-                            </th>
+                            <th class="text-center align-middle">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in lista %}
-                        <tr class="text-center">
+                        <tr class="text-center align-middle">
+                            <!-- Columna Nombre -->
                             <td>
                                 <a href="{{ url_for('proyecto.proyecto_id', id=item.id) }}" 
-                                class="btn btn-outline-primary btn-sm w-100 text-start opacity-50 hover-opacity-100" 
-                                style="transition: opacity 0.3s ease;">
+                                   class="btn btn-outline-primary btn-sm w-100 text-start text-truncate opacity-75 hover-opacity-100 px-2 py-1"
+                                   style="transition: opacity 0.3s ease;">
                                     {{ item.nombre }}
                                 </a>
                             </td>
-                            <td>{{ item.costoEstimadoInicial }}</td>
-                            <td>{{ item.fechaInicio }}</td>
-                            <td>{{ item.fechaFin }}</td>
-                            <td>{{ item.tiempoDeVida }}</td>
-                            <td>{{ item.capacidad }}</td>
-                            <td>{{ item.tipoEnergia }}</td>
-                            <td>{{ item.ubicacion }}</td>
-                            <td>{{ item.estado }}</td>
-                            <td>
-                                <div class="d-flex">
-                                    <a href="{{ url_for('proyecto.update', id=item.id) }}" class="btn btn-primary text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg">
-                                        <i class="fas fa-edit fa-lg"></i>
-                                    </a>
-                                
-                                    <a href="{{ url_for('proyecto.delete_proyecto', id=item.id) }}" 
-                                        class="btn btn-danger text-white p-3 mx-2 rounded d-flex justify-content-center align-items-center shadow-lg delete-btn">
-                                        <i class="fas fa-trash-alt fa-lg"></i>
-                                    </a>
-                                </div>
+                            <!-- Resto de columnas -->
+                            <td class="px-2 py-1">{{ item.costoEstimadoInicial }}</td>
+                            <td class="px-2 py-1">{{ item.fechaInicio }}</td>
+                            <td class="px-2 py-1">{{ item.fechaFin }}</td>
+                            <td class="px-2 py-1">{{ item.tiempoDeVida }}</td>
+                            <td class="px-2 py-1">{{ item.capacidad }}</td>
+                            <td class="px-2 py-1">{{ item.tipoEnergia }}</td>
+                            <td class="px-2 py-1">{{ item.ubicacion }}</td>
+                            <td class="px-2 py-1">{{ item.estado }}</td>
+                            <!-- Columna de Acciones -->
+                            <td class="d-flex justify-content-center gap-2">
+                                <a href="{{ url_for('proyecto.update', id=item.id) }}" 
+                                   class="btn btn-primary btn-sm rounded-circle d-flex justify-content-center align-items-center shadow"
+                                   style="width: 36px; height: 36px;">
+                                    <i class="fas fa-edit fa-sm"></i>
+                                </a>
+                                <a href="{{ url_for('proyecto.delete_proyecto', id=item.id) }}" 
+                                   class="btn btn-danger btn-sm rounded-circle d-flex justify-content-center align-items-center shadow delete-btn"
+                                   style="width: 36px; height: 36px;">
+                                    <i class="fas fa-trash-alt fa-sm"></i>
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
+                    
                 </table>
             </div>
         </div>
